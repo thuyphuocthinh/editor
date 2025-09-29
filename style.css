@@ -1,0 +1,67 @@
+#toolbar {
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+#toolbar button {
+  margin-right: 5px;
+}
+
+#editor {
+  border: 1px solid #aaa;
+  height: 200px;
+  overflow: auto;
+  padding: 10px;
+}
+
+#preview-ctn {
+  margin-top: 20px;
+  border: 1px solid #aaa;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 250px;
+}
+
+#preview-ctn h3 {
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+#preview-body {
+  display: flex;
+  height: 100%;
+}
+
+#preview-html-ctn,
+#preview-text-ctn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#preview-html-ctn h4,
+#preview-text-ctn h4 {
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+#preview-html-ctn h4 {
+  border-right: none;
+}
+
+#preview-html-ctn {
+  border-right: 1px solid #ccc;
+}
+
+#preview-html,
+#preview-text {
+  padding: 10px;
+  max-height: calc(100% - 105px);
+  overflow: auto;
+}

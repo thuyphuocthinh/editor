@@ -16,13 +16,80 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
+const editor = $("#editor");
+const previewText = $("#preview-text");
+const previewHtml = $("#preview-html");
+
+const render = (html) => {
+  previewText.innerHTML = html;
+  previewHtml.textContent = html;
+};
+
+const clear = () => {
+  editor.innerHTML = "";
+  previewHtml.textContent = "";
+  previewText.innerHTML = "";
+};
+
 $$("#toolbar button").forEach((btn) => {
   btn.addEventListener("click", () => {
     const cmd = btn.dataset.cmd;
     document.execCommand(cmd, false, null);
+    switch (cmd) {
+      case "preview": {
+        if (editor.innerHTML.trim() !== "") {
+          render(editor.innerHTML);
+          break;
+        }
+      }
+
+      case "clear": {
+        clear();
+        break;
+      }
+    }
   });
 });
 
-$("#editor").addEventListener("input", () => {
-  console.log(document.getElementById("editor").innerHTML);
+editor.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "Tab": {
+      e.preventDefault();
+      document.execCommand("insertText", false, "\t");
+      break;
+    }
+    default: {
+      console.log("Not found command");
+      break;
+    }
+  }
+
+  if (e.ctrlKey) {
+    switch (e.key) {
+      case "b": {
+        e.preventDefault();
+        document.execCommand("bold", false, null);
+        break;
+      }
+      case "i": {
+        e.preventDefault();
+        document.execCommand("italic", false, null);
+        break;
+      }
+      case "u": {
+        e.preventDefault();
+        document.execCommand("underline", false, null);
+        break;
+      }
+      case "Enter": {
+        e.preventDefault();
+        document.execCommand("insertHTML", false, "<br><br>");
+        break;
+      }
+      default: {
+        console.log("Not found command");
+        break;
+      }
+    }
+  }
 });
