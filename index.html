@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Mini Editor</title>
+    <style>
+        #toolbar {
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        #toolbar button {
+            margin-right: 5px;
+        }
+
+        #editor {
+            border: 1px solid #aaa;
+            min-height: 200px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="toolbar">
+        <button data-cmd="bold">B</button>
+        <button data-cmd="italic">I</button>
+        <button data-cmd="underline">U</button>
+    </div>
+
+    <div id="editor" contenteditable="true"></div>
+
+    <script src="./main.js"></script>
+</body>
+
+</html>
