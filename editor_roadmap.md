@@ -22,6 +22,7 @@ document.execCommand(). - Xuất/nhập dữ liệu: innerHTML.
 -   Làm thêm nút Highlight + Link.
 
 👉 Kết quả: Bạn có custom format text bằng Range.
+=> Custom lại Bold, Italic, Highlight, Link, giữ con trỏ, bôi đen thêm popup.
 
 ## Tuần 3
 
@@ -88,7 +89,7 @@ thay vì dùng HTML trực tiếp. - Ví dụ kiểu Quill Delta:
 
 👉 Kết quả: Editor có data format riêng, dễ dùng lại.
 
-## Tuần 11
+## Tuần 11 => refactor thành OOP + đóng gói thư viện
 
 -   Viết plugin nhỏ: word counter, auto-save mỗi 5s.
 -   Thêm plugin API để mở rộng (gắn toolbar custom).

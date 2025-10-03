@@ -13,6 +13,7 @@
         c. Thiết lập các sự kiện và hành vi dựa trên config
     4. Trả về đối tượng editor đã được khởi tạo và vẽ ra giao diện trên element
 */
+
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
@@ -31,22 +32,55 @@ const clear = () => {
   previewText.innerHTML = "";
 };
 
+const format = (elementName) => {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return;
+  const range = sel.getRangeAt(0);
+
+  const content = range.extractContents();
+  const el = document.createElement(elementName);
+  el.appendChild(content);
+
+  if (elementName === "a") {
+    el.setAttribute("href", content);
+    el.setAttribute("target", "_blank");
+  }
+  range.insertNode(el);
+  range.setStartAfter(el);
+  range.setEndAfter(el);
+  sel.removeAllRanges();
+  sel.addRange(range);
+};
+
+const preview = () => {
+  if (editor.innerHTML.trim() !== "") {
+    render(editor.innerHTML);
+  }
+};
+
+const mapCommandToActions = {
+  preview: preview,
+  clear: clear,
+  reset: () => {},
+  bold: () => format("strong"),
+  italic: () => format("i"),
+  underline: () => format("u"),
+  link: () => format("a"),
+};
+
+const mapKeyToActions = {
+  Tab: () => format("span"),
+  b: () => format("strong"),
+  i: () => format("i"),
+  u: () => format("u"),
+  Enter: () => format("br"),
+};
+
 $$("#toolbar button").forEach((btn) => {
   btn.addEventListener("click", () => {
     const cmd = btn.dataset.cmd;
-    document.execCommand(cmd, false, null);
-    switch (cmd) {
-      case "preview": {
-        if (editor.innerHTML.trim() !== "") {
-          render(editor.innerHTML);
-          break;
-        }
-      }
-
-      case "clear": {
-        clear();
-        break;
-      }
+    if (mapCommandToActions[cmd]) {
+      mapCommandToActions[cmd]();
     }
   });
 });
@@ -55,7 +89,7 @@ editor.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "Tab": {
       e.preventDefault();
-      document.execCommand("insertText", false, "\t");
+      format("span");
       break;
     }
     default: {
@@ -65,31 +99,10 @@ editor.addEventListener("keydown", (e) => {
   }
 
   if (e.ctrlKey) {
-    switch (e.key) {
-      case "b": {
-        e.preventDefault();
-        document.execCommand("bold", false, null);
-        break;
-      }
-      case "i": {
-        e.preventDefault();
-        document.execCommand("italic", false, null);
-        break;
-      }
-      case "u": {
-        e.preventDefault();
-        document.execCommand("underline", false, null);
-        break;
-      }
-      case "Enter": {
-        e.preventDefault();
-        document.execCommand("insertHTML", false, "<br><br>");
-        break;
-      }
-      default: {
-        console.log("Not found command");
-        break;
-      }
+    const action = mapKeyToActions[e.key];
+    if (action) {
+      e.preventDefault();
+      action();
     }
   }
 });
