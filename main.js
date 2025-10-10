@@ -1,18 +1,5 @@
-/*
-    Làm sao mà từ const editor = new Editor(element, config)
-    => element: phần tử DOM mà editor sẽ mount vào
-    => config: object config các tính năng của editor
-
-    => editor: đối tượng editor đã được khởi tạo và có thể sử dụng các phương thức của nó
-    Khi gọi new Editor(element, config) thì trình biên dịch sẽ thực hiện các bước sau:
-    1. Tạo một đối tượng mới từ lớp Editor
-    2. Gọi hàm khởi tạo (constructor) của lớp Editor với tham số element và config
-    3. Trong hàm khởi tạo, thực hiện các bước sau:
-        a. Gán element và config vào các thuộc tính của đối tượng editor
-        b. Khởi tạo các thành phần cần thiết cho editor (như toolbar, content area, ...)
-        c. Thiết lập các sự kiện và hành vi dựa trên config
-    4. Trả về đối tượng editor đã được khởi tạo và vẽ ra giao diện trên element
-*/
+import { toolbarUi } from "./ui/toolbar.ui.js";
+import { debounce } from "./utils/index.js";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
@@ -76,14 +63,17 @@ const mapKeyToActions = {
   Enter: () => format("br"),
 };
 
-$$("#toolbar button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const cmd = btn.dataset.cmd;
-    if (mapCommandToActions[cmd]) {
-      mapCommandToActions[cmd]();
-    }
+const setupHandlers = (selector) => {
+  if (document.querySelector(selector) === null) return;
+  $$(selector).forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const cmd = btn.dataset.cmd;
+      if (mapCommandToActions[cmd]) {
+        mapCommandToActions[cmd]();
+      }
+    });
   });
-});
+};
 
 editor.addEventListener("keydown", (e) => {
   switch (e.key) {
@@ -106,3 +96,49 @@ editor.addEventListener("keydown", (e) => {
     }
   }
 });
+
+document.addEventListener("selectionchange", () => {
+  const selection = document.getSelection();
+  if (!selection) return;
+  if (selection.rangeCount > 0) {
+    const range = selection.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+    console.log("Rect:", rect);
+    const x = rect.left + window.scrollX;
+    const y = rect.top + window.scrollY - 40;
+    mountToolbar(selection.toString(), x, y);
+  }
+});
+
+document.addEventListener("mousedown", (e) => {
+  const toolbar = document.getElementById("toolbarFloat");
+  if (!toolbar) return;
+  const clickedInsideToolbar = toolbar.contains(e.target);
+  const clickedInsideEditor = editor.contains(e.target);
+  if (!clickedInsideToolbar && !clickedInsideEditor) {
+    toolbar.remove();
+  }
+});
+
+const mountToolbar = (text, x, y, id = "toolbarFloat") => {
+  if (!text) return;
+  const existingToolbar = document.getElementById(id);
+  if (existingToolbar) {
+    document.body.removeChild(existingToolbar);
+  }
+  const toolbarContainer = document.createElement("div");
+  toolbarContainer.id = id;
+  toolbarContainer.style.position = "absolute";
+  toolbarContainer.style.top = `${y}px`;
+  toolbarContainer.style.left = `${x}px`;
+  toolbarContainer.innerHTML = toolbarUi();
+  document.body.insertBefore(toolbarContainer, document.body.firstChild);
+};
+
+const init = () => {
+  editor.focus();
+  setupHandlers("#toolbarFloat button");
+  setupHandlers("#toolbar button");
+};
+
+init();

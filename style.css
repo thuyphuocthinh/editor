@@ -8,6 +8,19 @@
   margin-right: 5px;
 }
 
+#toolbarFloat {
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin-bottom: 10px;
+  width: fit-content;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#toolbarFloat button {
+  margin-right: 5px;
+}
+
 #editor {
   border: 1px solid #aaa;
   height: 200px;
