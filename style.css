@@ -4,6 +4,10 @@
   margin-bottom: 10px;
 }
 
+* {
+  box-sizing: border-box !important;
+}
+
 #toolbar button {
   margin-right: 5px;
 }
@@ -23,7 +27,7 @@
 
 #editor {
   border: 1px solid #aaa;
-  height: 200px;
+  height: 250px;
   overflow: auto;
   padding: 10px;
 }
@@ -34,7 +38,7 @@
   display: flex;
   flex-direction: column;
   padding: 0;
-  height: 250px;
+  height: 350px;
 }
 
 #preview-ctn h3 {
@@ -45,7 +49,7 @@
 
 #preview-body {
   display: flex;
-  height: 100%;
+  height: calc(100% - 39.2px);
 }
 
 #preview-html-ctn,
@@ -75,6 +79,24 @@
 #preview-html,
 #preview-text {
   padding: 10px;
-  max-height: calc(100% - 105px);
+  height: 100%;
   overflow: auto;
+  background: white;
+  border-bottom: 1px solid #ccc;
+}
+
+.base-input-ctn {
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  background-color: #fff;
+  gap: 6px;
+}
+
+.base-input-ctn input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
 }
