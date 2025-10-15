@@ -1,4 +1,4 @@
-import { toolbarUi, baseInput } from "./ui/index.js";
+import { Toolbar, BaseInput } from "./ui/index.js";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
@@ -36,35 +36,68 @@ const mountToolbar = (text, x, y, id = ids.toolbar) => {
   if (existingToolbar) {
     document.body.removeChild(existingToolbar);
   }
-  const toolbarContainer = document.createElement("div");
-  toolbarContainer.id = id;
-  toolbarContainer.style.position = "absolute";
-  toolbarContainer.style.top = `${y}px`;
-  toolbarContainer.style.left = `${x}px`;
-  toolbarContainer.innerHTML = toolbarUi();
-  document.body.insertBefore(toolbarContainer, document.body.firstChild);
-  setupHandlers("#toolbarFloat button");
+  const toolbarContainer = new Toolbar({
+    id: ids.toolbar,
+    style: {
+      position: "absolute",
+      top: `${y}px`,
+      left: `${x}px`,
+      zIndex: 1000,
+    },
+  });
+  toolbarContainer.mount(document.body);
+
+  toolbarContainer.element.addEventListener("toolbar-click", (e) => {
+    const cmd = e.detail;
+    if (mapCommandToActions[cmd]) {
+      mapCommandToActions[cmd]();
+    }
+  });
 };
 
 const unmountToolbar = (id = ids.toolbar) => {
   const element = $(`#${id}`);
-  console.log(element);
   if (element) {
     document.body.removeChild(element);
   }
 };
 
-const mountInsertLinkInput = (range, id = ids.baseinput) => {
+const mountInsertLinkInput = (range, linkId = "tempLinkId") => {
   const { x, y } = getCoordinateFromRange(range);
-  const baseInputElement = document.createElement("div");
-  baseInputElement.id = id;
-  baseInputElement.style.position = "absolute";
-  baseInputElement.style.top = `${y - 40}px`;
-  baseInputElement.style.left = `${x}px`;
-  baseInputElement.innerHTML = baseInput({ type: "text", showButton: true });
-  document.body.insertBefore(baseInputElement, document.body.firstChild);
-  unmountToolbar(ids.toolbar);
+
+  const baseInput = new BaseInput({
+    type: "text",
+    showButton: true,
+    placeholder: "Enter link here...",
+    id: ids.baseinput,
+    style: {
+      position: "absolute",
+      top: `${y - 60}px`,
+      left: `${x}px`,
+      zIndex: 1000,
+    },
+  });
+
+  baseInput.mount(document.body);
+
+  unmountToolbar();
+
+  baseInput.element.addEventListener("apply", (e) => {
+    updateLinkHref(linkId, e.detail);
+    document.body.removeChild(baseInput.element);
+  });
+
+  baseInput.element.addEventListener("change", (e) => {
+    updateLinkHref(linkId, e.detail);
+  });
 };
+
+function updateLinkHref(linkId, url) {
+  const linkEl = document.querySelector(`[data-link-id="${linkId}"]`);
+  if (linkEl && url) {
+    linkEl.setAttribute("href", url.trim() || "#");
+  }
+}
 
 const format = (elementName) => {
   const sel = window.getSelection();
@@ -76,9 +109,12 @@ const format = (elementName) => {
 
   if (elementName === "a") {
     const text = content.textContent.trim();
+    const uniqueId = "link-" + Date.now();
+
     el.setAttribute("href", text || "#");
     el.setAttribute("target", "_blank");
-    mountInsertLinkInput(range, "baseInputId");
+    el.setAttribute("data-link-id", uniqueId);
+    mountInsertLinkInput(range, uniqueId);
   }
 
   el.appendChild(content);
@@ -113,18 +149,6 @@ const mapKeyToActions = {
   i: () => format("i"),
   u: () => format("u"),
   Enter: () => format("br"),
-};
-
-const setupHandlers = (selector) => {
-  if (document.querySelector(selector) === null) return;
-  $$(selector).forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const cmd = btn.dataset.cmd;
-      if (mapCommandToActions[cmd]) {
-        mapCommandToActions[cmd]();
-      }
-    });
-  });
 };
 
 editor.addEventListener("keydown", (e) => {
@@ -168,6 +192,18 @@ document.addEventListener("mousedown", (e) => {
     toolbar.remove();
   }
 });
+
+const setupHandlers = (selector) => {
+  const buttons = $$(selector);
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const cmd = e.target.getAttribute("data-cmd");
+      if (mapCommandToActions[cmd]) {
+        mapCommandToActions[cmd]();
+      }
+    });
+  });
+};
 
 const init = () => {
   editor.focus();
