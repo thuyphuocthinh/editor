@@ -1,4 +1,5 @@
 import { Toolbar, BaseInput } from "./ui/index.js";
+import { EditorLogs } from "./utils/editor_log.util.js";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
@@ -6,6 +7,7 @@ const $$ = document.querySelectorAll.bind(document);
 const editor = $("#editor");
 const previewText = $("#preview-text");
 const previewHtml = $("#preview-html");
+const logs = EditorLogs();
 
 const ids = {
   toolbar: "toolbarFloat",
@@ -125,11 +127,27 @@ const format = (elementName) => {
   range.setEndAfter(el);
   sel.removeAllRanges();
   sel.addRange(range);
+
+  logs.push(editor.innerHTML);
 };
 
 const preview = () => {
   if (editor.innerHTML.trim() !== "") {
     render(editor.innerHTML);
+  }
+};
+
+const redo = () => {
+  const state = logs.redo();
+  if (state !== null) {
+    editor.innerHTML = state;
+  }
+};
+
+const undo = () => {
+  const state = logs.undo();
+  if (state !== null) {
+    editor.innerHTML = state;
   }
 };
 
@@ -141,6 +159,8 @@ const mapCommandToActions = {
   italic: () => format("i"),
   underline: () => format("u"),
   link: () => format("a"),
+  redo: () => redo(),
+  undo: () => undo(),
 };
 
 const mapKeyToActions = {
@@ -149,49 +169,57 @@ const mapKeyToActions = {
   i: () => format("i"),
   u: () => format("u"),
   Enter: () => format("br"),
+  z: () => undo(),
+  y: () => redo(),
 };
 
-editor.addEventListener("keydown", (e) => {
-  switch (e.key) {
-    case "Tab": {
-      e.preventDefault();
-      format("span");
-      break;
+const startListeners = () => {
+  editor.addEventListener("keydown", (e) => {
+    switch (e.key) {
+      case "Tab": {
+        e.preventDefault();
+        format("span");
+        break;
+      }
+      default: {
+        console.log("Not found command");
+        break;
+      }
     }
-    default: {
-      console.log("Not found command");
-      break;
+
+    if (e.ctrlKey) {
+      const action = mapKeyToActions[e.key];
+      if (action) {
+        e.preventDefault();
+        action();
+      }
     }
-  }
+  });
 
-  if (e.ctrlKey) {
-    const action = mapKeyToActions[e.key];
-    if (action) {
-      e.preventDefault();
-      action();
+  document.addEventListener("selectionchange", () => {
+    const selection = document.getSelection();
+    if (!selection) return;
+    if (selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      const { x, y } = getCoordinateFromRange(range);
+      mountToolbar(selection.toString(), x, y - 40);
     }
-  }
-});
+  });
 
-document.addEventListener("selectionchange", () => {
-  const selection = document.getSelection();
-  if (!selection) return;
-  if (selection.rangeCount > 0) {
-    const range = selection.getRangeAt(0);
-    const { x, y } = getCoordinateFromRange(range);
-    mountToolbar(selection.toString(), x, y - 40);
-  }
-});
+  document.addEventListener("mousedown", (e) => {
+    const toolbar = document.getElementById("toolbarFloat");
+    if (!toolbar) return;
+    const clickedInsideToolbar = toolbar.contains(e.target);
+    const clickedInsideEditor = editor.contains(e.target);
+    if (!clickedInsideToolbar && !clickedInsideEditor) {
+      toolbar.remove();
+    }
+  });
 
-document.addEventListener("mousedown", (e) => {
-  const toolbar = document.getElementById("toolbarFloat");
-  if (!toolbar) return;
-  const clickedInsideToolbar = toolbar.contains(e.target);
-  const clickedInsideEditor = editor.contains(e.target);
-  if (!clickedInsideToolbar && !clickedInsideEditor) {
-    toolbar.remove();
-  }
-});
+  editor.addEventListener("input", () => {
+    logs.push(editor.innerHTML);
+  });
+};
 
 const setupHandlers = (selector) => {
   const buttons = $$(selector);
@@ -205,9 +233,12 @@ const setupHandlers = (selector) => {
   });
 };
 
+/**---------------- INIT ------------------ */
+
 const init = () => {
   editor.focus();
   setupHandlers("#toolbar button");
+  startListeners();
 };
 
 init();
