@@ -101,7 +101,7 @@ function updateLinkHref(linkId, url) {
   }
 }
 
-const format = (elementName) => {
+const formatInline = (elementName) => {
   const sel = window.getSelection();
   if (!sel.rangeCount) return;
 
@@ -123,6 +123,36 @@ const format = (elementName) => {
   range.insertNode(el);
 
   // cập nhật selection
+  range.setStartAfter(el);
+  range.setEndAfter(el);
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  logs.push(editor.innerHTML);
+};
+
+const formatBlock = (elementName) => {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return;
+
+  const range = sel.getRangeAt(0);
+  const content = range.extractContents();
+  let el;
+  if (elementName === "ul" || elementName === "ol") {
+    el = document.createElement(elementName);
+    const lines = content.textContent
+      .split("\n")
+      .filter((line) => line.trim() !== "");
+    lines.forEach((line) => {
+      const li = document.createElement("li");
+      li.textContent = line;
+      el.appendChild(li);
+    });
+  } else {
+    el = document.createElement(elementName);
+    el.appendChild(content);
+  }
+  range.insertNode(el);
   range.setStartAfter(el);
   range.setEndAfter(el);
   sel.removeAllRanges();
@@ -155,20 +185,21 @@ const mapCommandToActions = {
   preview: preview,
   clear: clear,
   reset: () => {},
-  bold: () => format("strong"),
-  italic: () => format("i"),
-  underline: () => format("u"),
-  link: () => format("a"),
+  bold: () => formatInline("strong"),
+  italic: () => formatInline("i"),
+  underline: () => formatInline("u"),
+  link: () => formatInline("a"),
   redo: () => redo(),
   undo: () => undo(),
+  formatBlock: (tag) => formatBlock(tag),
 };
 
 const mapKeyToActions = {
-  Tab: () => format("span"),
-  b: () => format("strong"),
-  i: () => format("i"),
-  u: () => format("u"),
-  Enter: () => format("br"),
+  Tab: () => formatInline("span"),
+  b: () => formatInline("strong"),
+  i: () => formatInline("i"),
+  u: () => formatInline("u"),
+  Enter: () => formatInline("br"),
   z: () => undo(),
   y: () => redo(),
 };
@@ -178,7 +209,7 @@ const startListeners = () => {
     switch (e.key) {
       case "Tab": {
         e.preventDefault();
-        format("span");
+        formatInline("span");
         break;
       }
       default: {
@@ -222,15 +253,30 @@ const startListeners = () => {
 };
 
 const setupHandlers = (selector) => {
-  const buttons = $$(selector);
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const cmd = e.target.getAttribute("data-cmd");
-      if (mapCommandToActions[cmd]) {
-        mapCommandToActions[cmd]();
-      }
+  if (selector.includes("button")) {
+    const buttons = $$(selector);
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const cmd = e.target.getAttribute("data-cmd");
+        if (mapCommandToActions[cmd]) {
+          mapCommandToActions[cmd]();
+        }
+      });
     });
-  });
+  }
+  if (selector.includes("select")) {
+    const selects = $$(selector);
+    selects.forEach((select) => {
+      select.addEventListener("change", (e) => {
+        const cmd =
+          e.target.options[e.target.selectedIndex].getAttribute("data-cmd");
+        const value = e.target.value;
+        if (cmd === "formatBlock" && mapCommandToActions[cmd]) {
+          mapCommandToActions[cmd](value);
+        }
+      });
+    });
+  }
 };
 
 /**---------------- INIT ------------------ */
@@ -238,6 +284,7 @@ const setupHandlers = (selector) => {
 const init = () => {
   editor.focus();
   setupHandlers("#toolbar button");
+  setupHandlers("#toolbar select");
   startListeners();
 };
 

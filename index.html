@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Mini Editor</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
     <link rel="stylesheet" href="./style.css" />
 </head>
 
@@ -18,6 +19,20 @@
         <button data-cmd="reset">Reset</button>
         <button data-cmd="undo">Undo</button>
         <button data-cmd="redo">Redo</button>
+        <select id="heading" name="heading">
+            <option value="" disabled selected>Heading</option>
+            <option value="h1" data-cmd="formatBlock">H1</option>
+            <option value="h2" data-cmd="formatBlock">H2</option>
+            <option value="h3" data-cmd="formatBlock">H3</option>
+            <option value="h4" data-cmd="formatBlock">H4</option>
+            <option value="h5" data-cmd="formatBlock">H5</option>
+            <option value="h6" data-cmd="formatBlock">H6</option>
+        </select>
+        <select id="list" name="list">
+            <option value="" disabled selected>List</option>
+            <option value="ol" data-cmd="formatBlock">Ordered List</option>
+            <option value="ul" data-cmd="formatBlock">Unordered List</option>
+        </select>
     </div>
 
     <div id="editor" contenteditable="true"></div>
