@@ -249,6 +249,13 @@ const renderNestedList = () => {
       prev.appendChild(sublist);
     }
     sublist.appendChild(li);
+
+    const range = document.createRange();
+    range.selectNodeContents(li);
+    range.collapse(true);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 };
 
