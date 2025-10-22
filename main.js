@@ -133,9 +133,40 @@ const formatInline = (elementName) => {
 
 const formatBlock = (elementName) => {
   const sel = window.getSelection();
-  if (!sel.rangeCount) return;
+  // if no selection, insert empty block element
+  // move caret inside the new element
+  if (!sel.rangeCount) {
+    const el = document.createElement(elementName);
+    el.innerHTML = "<br>";
+    editor.appendChild(el);
 
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+
+    logs.push(editor.innerHTML);
+    return;
+  }
+
+  // if selection is outside editor, insert empty block element at end
+  // move caret inside the new element
   const range = sel.getRangeAt(0);
+  if (!editor.contains(range.commonAncestorContainer)) {
+    const el = document.createElement(elementName);
+    el.innerHTML = "<br>";
+    editor.appendChild(el);
+    const newRange = document.createRange();
+    newRange.selectNodeContents(el);
+    newRange.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(newRange);
+    logs.push(editor.innerHTML);
+    return;
+  }
+
+  // extract selected content and wrap in block element
   const content = range.extractContents();
   let el;
   if (elementName === "ul" || elementName === "ol") {
@@ -152,9 +183,10 @@ const formatBlock = (elementName) => {
     el = document.createElement(elementName);
     el.appendChild(content);
   }
+
   range.insertNode(el);
-  range.setStartAfter(el);
-  range.setEndAfter(el);
+  range.setStart(el, 0);
+  range.collapse(true);
   sel.removeAllRanges();
   sel.addRange(range);
 
@@ -204,12 +236,74 @@ const mapKeyToActions = {
   y: () => redo(),
 };
 
+const renderNestedList = () => {
+  const sel = window.getSelection();
+  const li = sel.anchorNode.closest("li");
+  if (!li) return;
+
+  const prev = li.previousElementSibling;
+  if (prev) {
+    let sublist = prev.querySelector("ul, ol");
+    if (!sublist) {
+      sublist = document.createElement(li.parentElement.tagName.toLowerCase());
+      prev.appendChild(sublist);
+    }
+    sublist.appendChild(li);
+  }
+};
+
+const convertToList = (type, node) => {
+  if (type !== "ul" && type !== "ol") return;
+  if (!node) return;
+  const list = document.createElement(type);
+  const li = document.createElement("li");
+
+  node.textContent = "";
+  li.appendChild(document.createElement("br"));
+  list.appendChild(li);
+
+  node.parentElement.replaceChild(list, node);
+
+  // move caret inside the new li
+  const range = document.createRange();
+  range.selectNodeContents(li);
+  range.collapse(true);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+};
+
+const detectIntentCreateList = (e) => {
+  const sel = window.getSelection();
+  const range = sel.getRangeAt(0);
+  const node = range.startContainer;
+
+  const text = node.textContent.trim();
+
+  // Nếu user gõ "-" rồi space
+  if (e.key === " " && text === "-") {
+    e.preventDefault();
+    convertToList("ul", node);
+  }
+
+  // Nếu user gõ "1." rồi space
+  if (e.key === " " && /^(\d+)\.$/.test(text)) {
+    e.preventDefault();
+    convertToList("ol", node);
+  }
+};
+
 const startListeners = () => {
   editor.addEventListener("keydown", (e) => {
     switch (e.key) {
       case "Tab": {
         e.preventDefault();
-        formatInline("span");
+        // formatInline("span");
+        renderNestedList();
+        break;
+      }
+      case " ": {
+        detectIntentCreateList(e);
         break;
       }
       default: {
@@ -289,3 +383,14 @@ const init = () => {
 };
 
 init();
+
+// TODO: Initially, when choosing h1 -> h6, ul, ol from the dropdown, then empty editor html will be applied that format.
+// Apply Nested lists
+// Example:
+// - Item 1
+//    - Subitem 1
+//    - Subitem 2
+//      - Subsubitem 1
+//      - Subsubitem 2
+//  - Subitem 3
+// - Item 2
