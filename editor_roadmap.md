@@ -40,9 +40,11 @@ document.execCommand(). - Xuất/nhập dữ liệu: innerHTML.
 
 👉 Kết quả: Editor xử lý được cả inline + block format.
 
-📍 Tháng 2: Chỉnh chu, thêm tính năng thực tế \## Tuần 5 - Học xử lý sự
-kiện paste. - Viết hàm sanitize: giữ lại b, i, u, a, img, bỏ span style
-rác. - Cho phép copy/paste text từ Word/Google Docs.
+📍 Tháng 2: Chỉnh chu, thêm tính năng thực tế
+
+## Tuần 5 - Học xử lý sự kiện paste.
+- Viết hàm sanitize: giữ lại b, i, u, a, img, bỏ span style rác.
+- Cho phép copy/paste text từ Word/Google Docs.
 
 👉 Kết quả: Editor paste sạch sẽ.
 

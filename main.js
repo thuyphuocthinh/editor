@@ -167,16 +167,13 @@ const formatBlock = (elementName) => {
   }
 
   // extract selected content and wrap in block element
-  const content = range.extractContents();
+  const lines = range.extractContents()?.childNodes;
   let el;
   if (elementName === "ul" || elementName === "ol") {
     el = document.createElement(elementName);
-    const lines = content.textContent
-      .split("\n")
-      .filter((line) => line.trim() !== "");
     lines.forEach((line) => {
       const li = document.createElement("li");
-      li.textContent = line;
+      li.textContent = line.textContent.trim();
       el.appendChild(li);
     });
   } else {
