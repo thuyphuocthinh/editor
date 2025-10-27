@@ -1,13 +1,17 @@
 import { Toolbar, BaseInput } from "./ui/index.js";
 import { EditorLogs } from "./utils/editor_log.util.js";
+import { Clipboarder, Counter } from "./modules/index.js";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 const editor = $("#editor");
+const counterCtn = $("#counter");
 const previewText = $("#preview-text");
 const previewHtml = $("#preview-html");
 const logs = EditorLogs();
+const clipboard = Clipboarder();
+const counter = Counter();
 
 const ids = {
   toolbar: "toolbarFloat",
@@ -335,6 +339,8 @@ const startListeners = () => {
         action();
       }
     }
+
+    counter.start(counterCtn, e?.target?.textContent);
   });
 
   document.addEventListener("selectionchange", () => {
@@ -395,6 +401,15 @@ const init = () => {
   editor.focus();
   setupHandlers("#toolbar button");
   setupHandlers("#toolbar select");
+  clipboard.sanitize(
+    editor,
+    ["B", "I", "U", "A", "IMG", "P", "BR", "UL", "OL", "LI"],
+    {
+      A: ["href", "title"],
+      IMG: ["src", "alt"],
+    }
+  );
+  counter.start(editor);
   startListeners();
 };
 
