@@ -239,7 +239,14 @@ const mapKeyToActions = {
 const renderNestedList = () => {
   const sel = window.getSelection();
   const li = sel.anchorNode.closest("li");
-  if (!li) return;
+
+  let count = 0;
+  let tmpElement = li;
+  while (tmpElement) {
+    count++;
+    tmpElement = tmpElement.parentElement?.closest("li");
+  }
+  if (count > 5) return;
 
   const prev = li.previousElementSibling;
   if (prev) {
@@ -250,6 +257,11 @@ const renderNestedList = () => {
     }
     sublist.appendChild(li);
 
+    /*
+    Tạo một vùng chọn mới trong tài liệu,
+    Đặt caret (con trỏ nháy) vào đầu phần tử <li>,
+    Xóa vùng chọn cũ của người dùng.
+    */
     const range = document.createRange();
     range.selectNodeContents(li);
     range.collapse(true);
@@ -390,14 +402,3 @@ const init = () => {
 };
 
 init();
-
-// TODO: Initially, when choosing h1 -> h6, ul, ol from the dropdown, then empty editor html will be applied that format.
-// Apply Nested lists
-// Example:
-// - Item 1
-//    - Subitem 1
-//    - Subitem 2
-//      - Subsubitem 1
-//      - Subsubitem 2
-//  - Subitem 3
-// - Item 2
