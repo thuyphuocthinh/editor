@@ -6,7 +6,10 @@ export const Counter = () => {
     if (!counterCtn) return;
     const displayEle = counterCtn.querySelector("#counter-number");
     if (!displayEle) return;
-    displayEle.textContent = content.trim().split(" ").length;
+    displayEle.textContent = content
+      .trim()
+      .split(" ")
+      .filter((word) => word.trim()).length;
   };
 
   return {
