@@ -1,6 +1,7 @@
-import { Toolbar, BaseInput } from "./ui/index.js";
-import { EditorLogs, IDS } from "./utils/index.js";
-import { Clipboarder, Counter } from "./modules/index.js";
+import { Toolbar, BaseInput } from "./src/ui/index.js";
+import { EditorLogs } from "./src/utils/index.js";
+import { Clipboarder, Counter } from "./src/plugins/index.js";
+import { IDS } from "./src/constants/index.js";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);

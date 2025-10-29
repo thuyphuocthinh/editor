@@ -1,0 +1,8 @@
+export const EVENTS = {
+  SELECTION: {
+    CHANGE: "SELECTION_CHANGE_EVENT",
+  },
+  GLOBAL: {
+    READY: "EDITOR_READY_EVENT",
+  },
+};
