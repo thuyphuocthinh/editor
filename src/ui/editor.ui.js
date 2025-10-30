@@ -1,19 +1,7 @@
+import { IDS } from "../constants";
 import { BaseComponent } from "./baseComponent";
 
 const defineProps = {
-  type: {
-    required: true,
-    validator: (val) => ["text", "password", "email", "number"].includes(val),
-    message: "Type is required",
-  },
-  showButton: {
-    required: false,
-    default: false,
-  },
-  placeholder: {
-    required: false,
-    default: "",
-  },
   style: {
     required: false,
     default: {},
@@ -22,19 +10,31 @@ const defineProps = {
   },
   id: {
     required: false,
-    default: "base-input-id",
+    default: IDS.editor,
   },
 };
 
 export class EditorUi extends BaseComponent {
   constructor(props) {
-    props = {
-      ...props,
-      showButton: props.showButton ?? defineProps.showButton.default,
-    };
-
     super(props, defineProps);
-
+    this.childNodes = props?.childNodes || [];
     this.element = this.render();
+  }
+
+  render() {
+    const container = document.createElement("div");
+    container.id = IDS.editor;
+
+    this.childNodes.forEach((node) => {
+      container.appendChild(node);
+    });
+
+    const editable = document.createElement("div");
+    editable.contentEditable = true;
+    editable.id = IDS.editorContentable;
+    container.appendChild(editable);
+
+    this.setStyle(container);
+    return container;
   }
 }

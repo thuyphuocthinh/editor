@@ -38,7 +38,7 @@ ol ol ol ol {
 #toolbar {
   border: 1px solid #ccc;
   padding: 5px;
-  margin-bottom: 10px;
+  border-bottom: none;
 }
 
 * {
@@ -63,10 +63,30 @@ ol ol ol ol {
 }
 
 #editor {
-  border: 1px solid #aaa;
   height: 250px;
   overflow: auto;
+  margin-top: 10px;
+}
+
+#editor-contentable {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #aaa;
+  flex: 1;
   padding: 10px;
+  overflow: auto;
+}
+
+[contenteditable] {
+  all: unset; /* Xóa toàn bộ style mặc định của trình duyệt */
+  display: block; /* hoặc inline-block nếu cần */
+  min-height: 100px;
+  white-space: pre-wrap; /* giữ xuống dòng */
+  word-break: break-word;
+  outline: none; /* bỏ viền khi focus */
+  cursor: text;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 #counter {

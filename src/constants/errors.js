@@ -5,6 +5,7 @@ export const ERROR_DOMAIN = {
   EVENT_BUS: "EVENT_BUS",
   DOM: "DOM",
   COMMANDS: "COMMANDS",
+  UI: "UI",
 };
 
 export const ERROR_SUFFIX = {

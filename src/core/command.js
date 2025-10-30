@@ -1,5 +1,5 @@
 // core/CommandManager.js
-import { ERROR_DOMAIN, ERROR_SUFFIX, EVENTS } from "../constants";
+import { ERROR_DOMAIN, ERROR_SUFFIX, COMMANDS } from "../constants";
 import { formatError } from "../utils";
 
 export class CommandManager {
@@ -23,7 +23,7 @@ export class CommandManager {
       return;
     }
 
-    // validate command có tồn tại trong EVENTS (nếu Thịnh dùng để map constants)
+    // validate command có tồn tại trong EVENTS
     if (!this.validate(cmdName)) {
       console.error(
         formatError(
@@ -42,7 +42,7 @@ export class CommandManager {
    * Kiểm tra cmdName có tồn tại trong EVENTS không
    */
   validate(cmdName) {
-    for (const domain in EVENTS) {
+    for (const domain in COMMANDS) {
       const group = EVENTS[domain];
       if (Object.values(group).includes(cmdName)) return true;
     }

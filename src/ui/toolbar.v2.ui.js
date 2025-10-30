@@ -1,0 +1,56 @@
+import { ATTRIBUTES, IDS } from "../constants";
+import { TOOLBARS } from "../constants/toolbar";
+import { BaseComponent } from "./baseComponent";
+
+const defineProps = {};
+
+export class Toolbar extends BaseComponent {
+  constructor(props) {
+    super(props, defineProps);
+    this.element = this.render();
+  }
+
+  render() {
+    const { id } = this.props;
+    const container = document.createElement("div");
+    container.id = id || IDS.toolbar;
+    Object.entries(TOOLBARS).forEach(([k, v]) => {
+      if (v && typeof v === "object") {
+        if (v.level == 1) {
+          switch (v.type) {
+            case "select":
+              const options = v.options || [];
+              const select = document.createElement("select");
+              select.id = v.id;
+              select.name = v.name;
+              options.forEach((opt) => {
+                const option = document.createElement("option");
+                option.disabled = opt.disabled;
+                option.value = opt.value;
+                option.label = opt.label;
+                option.setAttribute(ATTRIBUTES.DATA_CMD, opt.dataCmd);
+                select.appendChild(option);
+              });
+              container.appendChild(select);
+              break;
+          }
+        }
+        if (v.level == 2) {
+          Object.entries(v).forEach(([_k, _v]) => {
+            switch (_v.type) {
+              case "button":
+                const button = document.createElement("button");
+                button.setAttribute(ATTRIBUTES.DATA_CMD, _v.dataCmd);
+                button.innerText = _v.label;
+                container.appendChild(button);
+                break;
+            }
+          });
+        }
+      }
+    });
+
+    this.setStyle(container);
+    return container;
+  }
+}

@@ -42,15 +42,9 @@ export class EventBus {
    */
   emit(eventName, ...args) {
     if (!this.events.has(eventName)) {
-      console.error(
-        formatError(
-          ERROR_DOMAIN.EVENT_BUS,
-          `${eventName} ${ERROR_SUFFIX.NOT_EXIST}`
-        )
-      );
-      return;
+      this.events.set(eventName, []);
     }
-    const listeners = Array.from(this.events.get(eventName));
+    const listeners = Array.from(this.events.get(eventName)) || [];
     for (const cb of listeners) {
       try {
         cb(...args);
