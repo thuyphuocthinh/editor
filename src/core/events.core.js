@@ -28,8 +28,8 @@ export class EventBus {
    * @param {Function} callback
    */
   once(event, callback) {
-    const wrapper = (...args) => {
-      callback(...args);
+    const wrapper = (args) => {
+      callback(args);
       this.off(event, wrapper);
     };
     this.on(event, wrapper);
@@ -40,21 +40,17 @@ export class EventBus {
    * @param {string} event
    * @param  {...any} args
    */
-  emit(eventName, ...args) {
+  emit(eventName, args) {
     if (!this.events.has(eventName)) {
       this.events.set(eventName, []);
     }
     const listeners = Array.from(this.events.get(eventName)) || [];
+    console.log(listeners);
     for (const cb of listeners) {
       try {
-        cb(...args);
+        cb(args);
       } catch (err) {
-        console.error(
-          formatError(
-            ERROR_DOMAIN.EVENT_BUS,
-            `${eventName} listener ${ERROR_SUFFIX.NOT_EXIST}`
-          )
-        );
+        console.error(formatError(ERROR_DOMAIN.EVENT_BUS, err.message));
       }
     }
   }

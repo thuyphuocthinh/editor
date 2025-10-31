@@ -1,2 +1,3 @@
-export * from "./clipboard.js";
-export * from "./counter.js";
+export * from "./clipboard.plugin.js";
+export * from "./counter.plugin.js";
+export * from "./undoredo.plugin.js";

@@ -1,9 +1,10 @@
 import { EVENTS } from "../constants";
+import { UndoRedo } from "../plugins/index";
 import { EditorUi } from "../ui/index";
-import { Toolbar } from "../ui/toolbar.v2.ui";
-import { CommandManager } from "./command";
-import { DOMHelper } from "./dom";
-import { EventBus } from "./events";
+import { CommandManager } from "./command.core";
+import { DOMHelper } from "./dom.core";
+import { EventBus } from "./events.core";
+import { Toolbar } from "./toolbar.core";
 
 export class Editor {
   constructor(container, options = {}) {
@@ -12,26 +13,34 @@ export class Editor {
     this.commands = new CommandManager(this.eventBus);
     this.selection = null;
     this.editorUi = null;
-    this.toolbarUi = null;
+    this.toolbar = null;
+    this.undoRedo = new UndoRedo();
     this.init();
   }
 
-  init() {
-    // render ui
-    // emit global event: editor_ready
-    // in the toolbar ui when command click => emit event, then listen to them in Editor
-    // event listener should always init in constructor
-    this.toolbarUi = new Toolbar({});
+  listen() {
+    this.eventBus.on(EVENTS.FORMAT.DONE, () => {
+      this.undoRedo.push(this.editorUi.element.innerHTML);
+    });
+  }
+
+  mount() {
+    this.toolbar = new Toolbar(this.eventBus);
     this.editorUi = new EditorUi({
       style: {
         height: "250px",
         display: "flex",
         flexDirection: "column",
       },
-      childNodes: [this.toolbarUi.element],
+      childNodes: [this.toolbar.toolbarUi.element],
     });
     this.editorUi.mount(document.body);
     this.eventBus.emit(EVENTS.GLOBAL.READY);
+  }
+
+  init() {
+    this.mount();
+    this.listen();
     console.log("Mount editor success!!!");
   }
 

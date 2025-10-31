@@ -37,4 +37,22 @@ export class EditorUi extends BaseComponent {
     this.setStyle(container);
     return container;
   }
+
+  getContent() {
+    const editorContentable = document.querySelector(
+      `#${IDS.editorContentable}`
+    );
+    if (editorContentable) {
+      return editorContentable.innerHTML;
+    }
+  }
+
+  setContent(newHtml) {
+    const editorContentable = document.querySelector(
+      `#${IDS.editorContentable}`
+    );
+    if (editorContentable) {
+      editorContentable.innerHTML = newHtml;
+    }
+  }
 }

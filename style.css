@@ -36,7 +36,7 @@ ol ol ol ol {
 }
 
 #toolbar {
-  border: 1px solid #ccc;
+  border: 1px solid #aaa;
   padding: 5px;
   border-bottom: none;
 }
@@ -45,7 +45,8 @@ ol ol ol ol {
   box-sizing: border-box !important;
 }
 
-#toolbar button {
+#toolbar button,
+#toolbar select {
   margin-right: 5px;
 }
 
@@ -146,7 +147,6 @@ ol ol ol ol {
   height: 100%;
   overflow: auto;
   background: white;
-  border-bottom: 1px solid #ccc;
 }
 
 .base-input-ctn {

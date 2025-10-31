@@ -1,13 +1,14 @@
-import { ATTRIBUTES, IDS } from "../constants";
-import { TOOLBARS } from "../constants/toolbar";
+import { ATTRIBUTES, EVENTS, IDS } from "../constants";
+import { TOOLBARS } from "../constants/toolbar.const";
 import { BaseComponent } from "./baseComponent";
 
 const defineProps = {};
 
 export class Toolbar extends BaseComponent {
-  constructor(props) {
+  constructor(props, eventBus) {
     super(props, defineProps);
     this.element = this.render();
+    this.eventBus = eventBus;
   }
 
   render() {
@@ -31,6 +32,10 @@ export class Toolbar extends BaseComponent {
                 option.setAttribute(ATTRIBUTES.DATA_CMD, opt.dataCmd);
                 select.appendChild(option);
               });
+              select.addEventListener("change", (e) => {
+                console.log(e.target.value);
+                this.eventBus.emit(EVENTS.ACTION.CLICK, e.target.value);
+              });
               container.appendChild(select);
               break;
           }
@@ -43,6 +48,11 @@ export class Toolbar extends BaseComponent {
                 button.setAttribute(ATTRIBUTES.DATA_CMD, _v.dataCmd);
                 button.innerText = _v.label;
                 container.appendChild(button);
+                button.addEventListener("click", () => {
+                  if (v.type === "format") {
+                    this.eventBus.emit(EVENTS.FORMAT.CLICK, _v.elementName);
+                  }
+                });
                 break;
             }
           });

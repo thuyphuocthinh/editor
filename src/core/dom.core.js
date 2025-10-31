@@ -1,5 +1,5 @@
 import { ERROR_DOMAIN } from "../constants/index.js";
-import { CustomError } from "./errors.js";
+import { CustomError } from "./errors.core.js";
 
 export class DOMHelper {
   constructor(root) {
