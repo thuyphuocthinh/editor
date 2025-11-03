@@ -1,5 +1,5 @@
 import { formatError } from "../utils/index";
-import { ERROR_DOMAIN, ERROR_SUFFIX } from "../constants/index";
+import { ERROR_DOMAIN } from "../constants/index";
 
 export class EventBus {
   constructor() {

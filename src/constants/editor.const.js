@@ -4,6 +4,8 @@ export const IDS = {
   counter: "counter-number",
   editor: "editor",
   editorContentable: "editor-contentable",
+  previewHtml: "preview-html",
+  previewText: "preview-text",
 };
 
 export const ATTRIBUTES = {

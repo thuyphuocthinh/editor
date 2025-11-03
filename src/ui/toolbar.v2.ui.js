@@ -52,6 +52,30 @@ export class Toolbar extends BaseComponent {
                   if (v.type === "format") {
                     this.eventBus.emit(EVENTS.FORMAT.CLICK, _v.elementName);
                   }
+                  if (v.type === "action") {
+                    switch (_v.dataCmd) {
+                      case "preview": {
+                        this.eventBus.emit(EVENTS.ACTION.PREVIEW);
+                        break;
+                      }
+                      case "undo": {
+                        this.eventBus.emit(EVENTS.ACTION.UNDO);
+                        break;
+                      }
+                      case "redo": {
+                        this.eventBus.emit(EVENTS.ACTION.REDO);
+                        break;
+                      }
+                      case "clear": {
+                        this.eventBus.emit(EVENTS.ACTION.CLEAR);
+                        break;
+                      }
+                      case "reset": {
+                        this.eventBus.emit(EVENTS.ACTION.RESET);
+                        break;
+                      }
+                    }
+                  }
                 });
                 break;
             }

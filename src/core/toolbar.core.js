@@ -1,5 +1,6 @@
-import { EVENTS, IDS } from "../constants";
+import { COMMANDS, EVENTS, IDS } from "../constants";
 import { ToolbarV2 } from "../ui";
+import { $ } from "../utils";
 
 export class Toolbar {
   constructor(eventBus) {
@@ -16,6 +17,10 @@ export class Toolbar {
   listen() {
     this.eventBus.on(EVENTS.FORMAT.CLICK, this.formatInline.bind(this));
     this.eventBus.on(EVENTS.ACTION.CLICK, this.formatBlock.bind(this));
+    this.eventBus.on(EVENTS.ACTION.PREVIEW, this.preview);
+    this.eventBus.on(EVENTS.ACTION.RESET, this.reset);
+    this.eventBus.on(EVENTS.ACTION.CLEAR, this.clear);
+    this.eventBus.on(EVENTS.COMMANDS.TRIGGER, this.formatInline.bind(this));
   }
 
   formatInline(elementName) {
@@ -115,4 +120,27 @@ export class Toolbar {
 
     this.eventBus.emit(EVENTS.FORMAT.DONE);
   }
+
+  preview() {
+    const previewText = $(`#${IDS.previewText}`);
+    const previewHtml = $(`#${IDS.previewHtml}`);
+    const editor = $(`#${IDS.editorContentable}`);
+    if (previewText && previewHtml && editor) {
+      previewHtml.innerHTML = editor.innerHTML;
+      previewText.textContent = editor.innerHTML;
+    }
+  }
+
+  clear() {
+    const previewText = $(`#${IDS.previewText}`);
+    const previewHtml = $(`#${IDS.previewHtml}`);
+    const editor = $(`#${IDS.editorContentable}`);
+    if (previewHtml && previewText && editor) {
+      previewText.textContent = "";
+      previewHtml.innerHTML = "";
+      editor.innerHTML = "";
+    }
+  }
+
+  reset() {}
 }
