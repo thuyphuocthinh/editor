@@ -6,6 +6,7 @@ export const IDS = {
   editorContentable: "editor-contentable",
   previewHtml: "preview-html",
   previewText: "preview-text",
+  previewCtn: "preview-ctn",
 };
 
 export const ATTRIBUTES = {

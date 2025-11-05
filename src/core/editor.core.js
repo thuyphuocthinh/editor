@@ -1,14 +1,26 @@
-import { EVENTS, IDS } from "../constants";
+import { ERROR_DOMAIN, ERROR_SUFFIX, EVENTS, IDS } from "../constants";
 import { Clipboarder, UndoRedo } from "../plugins/index";
 import { EditorUi } from "../ui/index";
+import { PreviewCtn } from "../ui/preview.ui";
+import { $, formatError } from "../utils";
 import { CommandManager } from "./command.core";
 import { DOMHelper } from "./dom.core";
 import { EventBus } from "./events.core";
 import { Toolbar } from "./toolbar.core";
 
 export class Editor {
-  constructor(container, options = {}) {
-    this.dom = new DOMHelper(container);
+  constructor(selector, options = {}) {
+    this.container = $(selector);
+    if (!this.container) {
+      console.error(
+        formatError(
+          ERROR_DOMAIN.DOM,
+          `SELECTOR '${selector}' ${ERROR_SUFFIX.NOT_EXIST}`
+        )
+      );
+      return;
+    }
+    this.dom = new DOMHelper(this.container);
     this.eventBus = new EventBus();
     this.commands = new CommandManager(this.eventBus);
     this.undoRedo = new UndoRedo();
@@ -16,7 +28,7 @@ export class Editor {
     this.editorUi = null;
     this.toolbar = null;
     this.clipboard = null;
-    this.init();
+    this.init(options);
   }
 
   listen() {
@@ -41,15 +53,16 @@ export class Editor {
       },
       childNodes: [this.toolbar.toolbarUi.element],
     });
-    this.editorUi.mount(document.body);
+    this.editorUi.mount(this.container);
 
     this.eventBus.emit(EVENTS.GLOBAL.READY);
   }
 
-  init() {
+  init(options) {
     this.mount();
     this.listen();
     this.setPlugins();
+    this.checkOptions(options);
     console.log("Mount editor success!!!");
   }
 
@@ -73,6 +86,23 @@ export class Editor {
     this.commands = null;
     this.selection = null;
     this.editorUi = null;
+  }
+
+  renderPreview() {
+    const previewUi = new PreviewCtn({});
+    if (this.container && previewUi.element) {
+      this.container.appendChild(previewUi.element);
+    }
+  }
+
+  checkOptions(options) {
+    console.log(options);
+    if (options !== null && typeof options === "object") {
+      const { showPreview } = options;
+      if (showPreview) {
+        this.renderPreview();
+      }
+    }
   }
 
   // T6 : render UI cua editor, thuc hien cac thao tac command cung nhu click duoc, sanitize, counter duoc

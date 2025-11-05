@@ -126,8 +126,8 @@ export class Toolbar {
     const previewHtml = $(`#${IDS.previewHtml}`);
     const editor = $(`#${IDS.editorContentable}`);
     if (previewText && previewHtml && editor) {
-      previewHtml.innerHTML = editor.innerHTML;
-      previewText.textContent = editor.innerHTML;
+      previewHtml.textContent = editor.innerHTML;
+      previewText.innerHTML = editor.innerHTML;
     }
   }
 
