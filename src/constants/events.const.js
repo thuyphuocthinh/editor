@@ -17,6 +17,11 @@ export const EVENTS = {
     REDO: "ACTION_REDO_EVENT",
     CLEAR: "ACTION_CLEAR_EVENT",
     RESET: "ACTION_RESET_EVENT",
+    UPLOAD_IMAGE: "action:upload_image",
+  },
+  IMAGE: {
+    UPLOADED: "image:uploaded",
+    REMOVED: "image:removed",
   },
   COMMANDS: {
     TRIGGER: "COMMAND_TRIGGER",

@@ -1,5 +1,6 @@
 import { ERROR_DOMAIN, ERROR_SUFFIX, EVENTS, IDS } from "../constants";
 import { Clipboarder, UndoRedo } from "../plugins/index";
+import { ImageUploader } from "../plugins/upload.plugin";
 import { EditorUi } from "../ui/index";
 import { PreviewCtn } from "../ui/preview.ui";
 import { $, formatError } from "../utils";
@@ -28,6 +29,7 @@ export class Editor {
     this.editorUi = null;
     this.toolbar = null;
     this.clipboard = null;
+    this.uploader = null;
     this.init(options);
   }
 
@@ -47,9 +49,10 @@ export class Editor {
     this.toolbar = new Toolbar(this.eventBus);
     this.editorUi = new EditorUi({
       style: {
-        height: "250px",
+        height: "300px",
         display: "flex",
         flexDirection: "column",
+        position: "relative",
       },
       childNodes: [this.toolbar.toolbarUi.element],
     });
@@ -75,12 +78,18 @@ export class Editor {
         img: ["src", "alt"],
       }
     );
+    this.imageUploader = new ImageUploader(
+      this.editorUi.element,
+      this.eventBus
+    );
   }
 
   destroy() {
     // clear event listener..., release memory
     this.eventBus.clear();
     this.commands.destroy();
+    this.imageUploader.destroy();
+    this.imageUploader = null;
     this.commands = null;
     this.dom = null;
     this.commands = null;
@@ -96,7 +105,6 @@ export class Editor {
   }
 
   checkOptions(options) {
-    console.log(options);
     if (options !== null && typeof options === "object") {
       const { showPreview } = options;
       if (showPreview) {

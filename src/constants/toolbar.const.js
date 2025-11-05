@@ -56,6 +56,11 @@ export const TOOLBARS = {
       label: "Redo",
       dataCmd: "redo",
     },
+    UPLOAD: {
+      type: "button",
+      label: "Upload",
+      dataCmd: "upload",
+    },
   },
 
   HEADING: {
