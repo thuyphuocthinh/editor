@@ -4,57 +4,12 @@
 <head>
     <meta charset="UTF-8" />
     <title>Mini Editor</title>
-    <link rel="icon" type="image/png" href="./assets/favicon.png">
+    <link rel="icon" type="image/png" href="./src/assets/favicon.png">
     <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
-    <div id="toolbar">
-        <button data-cmd="bold">B</button>
-        <button data-cmd="italic">I</button>
-        <button data-cmd="underline">U</button>
-        <button data-cmd="link">Link</button>
-        <button data-cmd="preview">Preview</button>
-        <button data-cmd="clear">Clear</button>
-        <button data-cmd="reset">Reset</button>
-        <button data-cmd="undo">Undo</button>
-        <button data-cmd="redo">Redo</button>
-        <select id="heading" name="heading">
-            <option value="" disabled selected>Heading</option>
-            <option value="h1" data-cmd="formatBlock">H1</option>
-            <option value="h2" data-cmd="formatBlock">H2</option>
-            <option value="h3" data-cmd="formatBlock">H3</option>
-            <option value="h4" data-cmd="formatBlock">H4</option>
-            <option value="h5" data-cmd="formatBlock">H5</option>
-            <option value="h6" data-cmd="formatBlock">H6</option>
-        </select>
-        <select id="list" name="list">
-            <option value="" disabled selected>List</option>
-            <option value="ol" data-cmd="formatBlock">Ordered List</option>
-            <option value="ul" data-cmd="formatBlock">Unordered List</option>
-        </select>
-    </div>
-
-    <div id="editor" contenteditable="true"></div>
-    <div id="counter">
-        <span><strong>Count:</strong></span>
-        <span id="counter-number">0</span>
-    </div>
-    <div id="preview-ctn">
-        <h3>Preview</h3>
-        <div id="preview-body">
-            <div id="preview-html-ctn">
-                <h4>HTML</h4>
-                <div id="preview-html"></div>
-            </div>
-            <div id="preview-text-ctn">
-                <h4>Text</h4>
-                <div id="preview-text"></div>
-            </div>
-        </div>
-    </div>
-
-    <script src="./main.js" type="module"></script>
+    <script src="./main.v2.js" type="module"></script>
 </body>
 
 </html>

@@ -51,6 +51,7 @@ document.execCommand(). - Xuất/nhập dữ liệu: innerHTML.
 
 ## Tuần 6
 
+-   Refactor sanitize, preview, undo, redo, nested list
 -   Thêm hỗ trợ Insert Image (dán link hoặc upload file).
 -   Thêm Code Block (pre/code).
 -   Học cách wrap block đặc biệt (blockquote, divider).

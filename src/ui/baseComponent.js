@@ -1,3 +1,6 @@
+import { ERROR_DOMAIN } from "../constants";
+import { CustomError } from "../core";
+
 const validateProps = (props, rules) => {
   if (typeof props !== "object" || props === null) {
     throw new Error("Props must be an object");
@@ -30,9 +33,21 @@ export class BaseComponent {
 
   mount(parentNode) {
     if (!(parentNode instanceof HTMLElement)) {
-      throw new Error("Parent node must be an HTMLElement");
+      throw new CustomError(
+        ERROR_DOMAIN.UI,
+        "Parent node must be an HTMLElement"
+      );
     }
     parentNode.appendChild(this.element);
+  }
+
+  append(childNode) {
+    if (!(childNode instanceof HTMLElement)) {
+      throw new CustomError(
+        ERROR_DOMAIN.UI,
+        "Child node must be an HTMLElement"
+      );
+    }
   }
 
   unmount() {
@@ -47,5 +62,14 @@ export class BaseComponent {
       bubbles: true,
     });
     this.element.dispatchEvent(event);
+  }
+
+  setStyle(element) {
+    const { style } = this.props;
+    if (style && typeof style === "object") {
+      Object.keys(style).forEach((key) => {
+        element.style[key] = style[key];
+      });
+    }
   }
 }

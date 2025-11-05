@@ -1,6 +1,7 @@
-import { Toolbar, BaseInput } from "./ui/index.js";
-import { EditorLogs } from "./utils/editor_log.util.js";
-import { Clipboarder, Counter } from "./modules/index.js";
+import { Toolbar, BaseInput } from "./src/ui/index.js";
+import { EditorLogs } from "./src/utils/index.js";
+import { Clipboarder, Counter } from "./src/plugins/index.js";
+import { IDS } from "./src/constants/index.js";
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
@@ -12,11 +13,6 @@ const previewHtml = $("#preview-html");
 const logs = EditorLogs();
 const clipboard = Clipboarder();
 const counter = Counter();
-
-const ids = {
-  toolbar: "toolbarFloat",
-  baseinput: "baseInputId",
-};
 
 const render = (html) => {
   previewText.innerHTML = html;
@@ -36,14 +32,14 @@ const getCoordinateFromRange = (range) => {
   return { x, y };
 };
 
-const mountToolbar = (text, x, y, id = ids.toolbar) => {
+const mountToolbar = (text, x, y, id = IDS.toolbar) => {
   if (!text) return;
   const existingToolbar = document.getElementById(id);
   if (existingToolbar) {
     document.body.removeChild(existingToolbar);
   }
   const toolbarContainer = new Toolbar({
-    id: ids.toolbar,
+    id: IDS.toolbar,
     style: {
       position: "absolute",
       top: `${y}px`,
@@ -61,7 +57,7 @@ const mountToolbar = (text, x, y, id = ids.toolbar) => {
   });
 };
 
-const unmountToolbar = (id = ids.toolbar) => {
+const unmountToolbar = (id = IDS.toolbar) => {
   const element = $(`#${id}`);
   if (element) {
     document.body.removeChild(element);
@@ -75,7 +71,7 @@ const mountInsertLinkInput = (range, linkId = "tempLinkId") => {
     type: "text",
     showButton: true,
     placeholder: "Enter link here...",
-    id: ids.baseinput,
+    id: IDS.baseinput,
     style: {
       position: "absolute",
       top: `${y - 60}px`,
