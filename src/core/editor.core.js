@@ -1,4 +1,5 @@
 import { ERROR_DOMAIN, ERROR_SUFFIX, EVENTS, IDS } from "../constants";
+import { CodeBlock } from "../plugins/codeblock.plugin";
 import { Clipboarder, UndoRedo } from "../plugins/index";
 import { ImageUploader } from "../plugins/upload.plugin";
 import { EditorUi } from "../ui/index";
@@ -30,6 +31,7 @@ export class Editor {
     this.toolbar = null;
     this.clipboard = null;
     this.uploader = null;
+    this.codeblock = null;
     this.init(options);
   }
 
@@ -57,7 +59,6 @@ export class Editor {
       childNodes: [this.toolbar.toolbarUi.element],
     });
     this.editorUi.mount(this.container);
-
     this.eventBus.emit(EVENTS.GLOBAL.READY);
   }
 
@@ -80,6 +81,10 @@ export class Editor {
     );
     this.imageUploader = new ImageUploader(
       this.editorUi.element,
+      this.eventBus
+    );
+    this.codeblock = new CodeBlock(
+      this.editorUi.element.querySelector(`#${IDS.editorContentable}`),
       this.eventBus
     );
   }

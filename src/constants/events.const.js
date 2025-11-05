@@ -18,6 +18,10 @@ export const EVENTS = {
     CLEAR: "ACTION_CLEAR_EVENT",
     RESET: "ACTION_RESET_EVENT",
     UPLOAD_IMAGE: "action:upload_image",
+    CODE_BLOCK: {
+      ADD: "ACTION_ADD_CODE_BLOCK",
+      REMOVE: "ACTION_REMOVE_CODE_BLOCK",
+    },
   },
   IMAGE: {
     UPLOADED: "image:uploaded",

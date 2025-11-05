@@ -78,6 +78,10 @@ export class Toolbar extends BaseComponent {
                         this.eventBus.emit(EVENTS.ACTION.UPLOAD_IMAGE);
                         break;
                       }
+                      case "code": {
+                        this.eventBus.emit(EVENTS.ACTION.CODE_BLOCK.ADD);
+                        break;
+                      }
                     }
                   }
                 });

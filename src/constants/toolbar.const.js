@@ -61,6 +61,11 @@ export const TOOLBARS = {
       label: "Upload",
       dataCmd: "upload",
     },
+    CODE: {
+      type: "button",
+      label: "Code </>",
+      dataCmd: "code",
+    },
   },
 
   HEADING: {
