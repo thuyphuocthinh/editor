@@ -15,5 +15,8 @@
   "devDependencies": {
     "live-server": "^1.2.2",
     "vite": "^6.4.1"
+  },
+  "dependencies": {
+    "viewerjs": "^1.11.7"
   }
 }

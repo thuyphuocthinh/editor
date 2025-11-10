@@ -48,7 +48,7 @@ export class Toolbar extends BaseComponent {
                 button.setAttribute(ATTRIBUTES.DATA_CMD, _v.dataCmd);
                 button.innerText = _v.label;
                 container.appendChild(button);
-                button.addEventListener("click", () => {
+                button.addEventListener("click", (e) => {
                   if (v.type === "format") {
                     this.eventBus.emit(EVENTS.FORMAT.CLICK, _v.elementName);
                   }
@@ -80,6 +80,12 @@ export class Toolbar extends BaseComponent {
                       }
                       case "code": {
                         this.eventBus.emit(EVENTS.ACTION.CODE_BLOCK.ADD);
+                        break;
+                      }
+                      case "link": {
+                        const x = e.clientX;
+                        const y = e.clientY;
+                        this.eventBus.emit(EVENTS.ACTION.OPEN_LINK, { x, y });
                         break;
                       }
                     }

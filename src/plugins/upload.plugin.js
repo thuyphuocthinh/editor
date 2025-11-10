@@ -1,18 +1,19 @@
-// src/plugins/imageUploader.js
 import { EVENTS } from "../constants";
-
+import Viewer from "viewerjs";
 export class ImageUploader {
   constructor(container, eventBus) {
     this.container = container; // phần DOM chính của editor
     this.eventBus = eventBus;
     this.images = []; // danh sách base64
     this.previewCtn = null;
+    this.viewer = null;
     this.init();
   }
 
   init() {
     this.createUploadInput();
     this.createPreviewContainer();
+    this.viewer = new Viewer(this.previewCtn);
   }
 
   createUploadInput() {
@@ -25,7 +26,6 @@ export class ImageUploader {
     input.addEventListener("change", (e) => this.handleFiles(e.target.files));
     document.body.appendChild(input);
 
-    // cho phép mở file dialog bằng sự kiện từ toolbar
     this.eventBus.on(EVENTS.ACTION.UPLOAD_IMAGE, () => input.click());
   }
 
@@ -73,6 +73,13 @@ export class ImageUploader {
         objectFit: "cover",
         borderRadius: "8px",
         border: "1px solid #ddd",
+        cursor: "pointer",
+      });
+
+      img.addEventListener("click", () => {
+        if (this.viewer) {
+          this.viewer.show(img);
+        }
       });
 
       const removeBtn = document.createElement("button");
@@ -94,13 +101,16 @@ export class ImageUploader {
         this.images.splice(index, 1);
         this.renderPreview();
         this.eventBus.emit(EVENTS.IMAGE.REMOVED, this.images);
+        this.viewer.update();
       });
 
       wrapper.appendChild(img);
       wrapper.appendChild(removeBtn);
       this.previewCtn.appendChild(wrapper);
     });
+
     this.togglePreviewStyle(this.images.length > 0);
+    this.viewer.update();
   }
 
   togglePreviewStyle(active) {

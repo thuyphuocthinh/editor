@@ -20,17 +20,16 @@ export const TOOLBARS = {
       dataCmd: "underline",
       elementName: "u",
     },
-    LINK: {
-      type: "button",
-      label: "Link",
-      dataCmd: "link",
-      elementName: "a",
-    },
   },
 
   ACTIONS: {
     type: "action",
     level: 2,
+    LINK: {
+      type: "button",
+      label: "Link",
+      dataCmd: "link",
+    },
     PREVIEW: {
       type: "button",
       label: "Preview",

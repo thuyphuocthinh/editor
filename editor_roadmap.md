@@ -60,54 +60,16 @@ document.execCommand(). - Xuất/nhập dữ liệu: innerHTML.
 
 ## Tuần 7
 
--   Làm highlight search (nhập từ khoá → highlight trong editor).
--   Làm nút Clear All → reset toàn bộ.
--   Tối ưu Undo/Redo (chỉ lưu diff thay vì full HTML).
-
-👉 Kết quả: Editor nhẹ hơn, usable hơn.
+-   Làm word counter
+-   Làm nút chèn link
 
 ## Tuần 8
 
--   Thêm theme CSS cho editor (light/dark mode).
--   Responsive: test trên mobile (contentEditable vẫn chạy).
--   Fix caret issue khi copy-paste nhiều dòng.
+- Tối ưu Undo/Redo (chỉ lưu diff thay vì full HTML).
+- Chuyển inner HTML => json model
 
-👉 Kết quả: Editor ổn định hơn, usable trên nhiều môi trường.
-
-📍 Tháng 3: Lên tầm "mini-Quill" \## Tuần 9 - Thiết kế data model riêng
-thay vì dùng HTML trực tiếp. - Ví dụ kiểu Quill Delta:
-
-``` json
-[
-  { "insert": "Hello ", "attributes": { "bold": true } },
-  { "insert": "world\n" }
-]
-```
-
-👉 Kết quả: Editor có thể sync data chuẩn hơn.
-
-## Tuần 10
-
+## Tuần 9
 -   Gắn Undo/Redo vào model (lưu operations).
 -   Thêm API xuất ra JSON, nhập từ JSON → render.
 
-👉 Kết quả: Editor có data format riêng, dễ dùng lại.
-
-## Tuần 11 => refactor thành OOP + đóng gói thư viện
-
--   Viết plugin nhỏ: word counter, auto-save mỗi 5s.
--   Thêm plugin API để mở rộng (gắn toolbar custom).
-
-👉 Kết quả: Editor có plugin system mini.
-
-## Tuần 12
-
--   Làm Demo final:
-    -   Rich text + heading + list + code block + image.\
-    -   Undo/Redo + Paste clean.\
-    -   Xuất/nhập JSON.\
--   Viết doc nhỏ giải thích kiến trúc.
-
-👉 Kết quả: Bạn có **một editor mini (chưa bằng Quill nhưng usable)**,
-và quan trọng nhất là bạn nắm hết: DOM API, Range, Undo/Redo, Data
-model, Plugin architecture.
+Làm xong tới phần export ra json (từ HTML) là oke => dừng

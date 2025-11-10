@@ -8,6 +8,7 @@ import { $, formatError } from "../utils";
 import { CommandManager } from "./command.core";
 import { DOMHelper } from "./dom.core";
 import { EventBus } from "./events.core";
+import { Link } from "./link.core";
 import { Toolbar } from "./toolbar.core";
 
 export class Editor {
@@ -32,6 +33,7 @@ export class Editor {
     this.clipboard = null;
     this.uploader = null;
     this.codeblock = null;
+    this.linkInput = null;
     this.init(options);
   }
 
@@ -60,6 +62,7 @@ export class Editor {
     });
     this.editorUi.mount(this.container);
     this.eventBus.emit(EVENTS.GLOBAL.READY);
+    this.linkInput = new Link(this.editorUi.element, this.eventBus);
   }
 
   init(options) {
@@ -94,6 +97,8 @@ export class Editor {
     this.eventBus.clear();
     this.commands.destroy();
     this.imageUploader.destroy();
+    this.codeblock.destroy();
+    this.codeblock = null;
     this.imageUploader = null;
     this.commands = null;
     this.dom = null;
