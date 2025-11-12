@@ -1,7 +1,8 @@
 import { ERROR_DOMAIN, ERROR_SUFFIX, EVENTS, IDS } from "../constants";
 import { CodeBlock } from "../plugins/codeblock.plugin";
-import { Clipboarder, UndoRedo } from "../plugins/index";
+import { Clipboarder, Counter, UndoRedo } from "../plugins/index";
 import { ImageUploader } from "../plugins/upload.plugin";
+import { CounterUi } from "../ui/counter.ui";
 import { EditorUi } from "../ui/index";
 import { PreviewCtn } from "../ui/preview.ui";
 import { $, formatError } from "../utils";
@@ -29,11 +30,13 @@ export class Editor {
     this.undoRedo = new UndoRedo();
     this.selection = null;
     this.editorUi = null;
+    this.counterUi = null;
     this.toolbar = null;
     this.clipboard = null;
     this.uploader = null;
     this.codeblock = null;
     this.linkInput = null;
+    this.counterPlugin = null;
     this.init(options);
   }
 
@@ -51,6 +54,20 @@ export class Editor {
 
   mount() {
     this.toolbar = new Toolbar(this.eventBus);
+    this.counterUi = new CounterUi(
+      {
+        style: {
+          display: "flex",
+          gap: "8px",
+          height: "30px",
+          border: "1px solid #ccc",
+          padding: "0 6px ",
+          alignItems: "center",
+          borderBottom: "none",
+        },
+      },
+      this.eventBus
+    );
     this.editorUi = new EditorUi({
       style: {
         height: "300px",
@@ -58,7 +75,7 @@ export class Editor {
         flexDirection: "column",
         position: "relative",
       },
-      childNodes: [this.toolbar.toolbarUi.element],
+      childNodes: [this.toolbar.toolbarUi.element, this.counterUi.element],
     });
     this.editorUi.mount(this.container);
     this.eventBus.emit(EVENTS.GLOBAL.READY);
@@ -90,6 +107,7 @@ export class Editor {
       this.editorUi.element.querySelector(`#${IDS.editorContentable}`),
       this.eventBus
     );
+    this.counterPlugin = new Counter(this.editorUi.element);
   }
 
   destroy() {

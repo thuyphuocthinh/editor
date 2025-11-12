@@ -7,6 +7,15 @@ export class Counter {
   constructor(container) {
     this.container = container;
     this.displayElement = container?.querySelector(`#${IDS.counter}`) || null;
+    this.listen();
+  }
+
+  listen() {
+    this.start();
+    this.container.addEventListener("keydown", (e) => {
+      const value = e.target.textContent;
+      this.update.bind(this)(value);
+    });
   }
 
   /**
@@ -14,6 +23,7 @@ export class Counter {
    * @param {string} content - Nội dung văn bản cần đếm
    */
   update(content = "") {
+    console.log(content);
     if (!this.displayElement) return;
     const wordCount = content
       .trim()

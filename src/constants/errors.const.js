@@ -6,6 +6,7 @@ export const ERROR_DOMAIN = {
   DOM: "DOM",
   COMMANDS: "COMMANDS",
   UI: "UI",
+  UPLOAD: "UPLOAD",
 };
 
 export const ERROR_SUFFIX = {

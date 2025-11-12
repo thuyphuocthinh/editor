@@ -23,12 +23,15 @@ export class LinkUi extends BaseComponent {
 
   render() {
     const container = document.createElement("div");
+    container.style.display = "flex";
+    container.style.gap = "8px";
     const input = document.createElement("input");
-    input.height = "30px";
+    input.style.height = "30px";
     input.placeholder = "Type Link";
+    input.style.padding = "0 6px";
     const button = document.createElement("button");
     button.textContent = "Save";
-    button.height = "30px";
+    button.style.height = "30px";
     button.style.cursor = "pointer";
     container.appendChild(input);
     container.appendChild(button);

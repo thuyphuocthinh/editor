@@ -1,5 +1,6 @@
-import { EVENTS } from "../constants";
+import { ERROR_DOMAIN, EVENTS } from "../constants";
 import Viewer from "viewerjs";
+import { formatError } from "../utils";
 export class ImageUploader {
   constructor(container, eventBus) {
     this.container = container; // phần DOM chính của editor
@@ -42,12 +43,16 @@ export class ImageUploader {
   }
 
   async handleFiles(files) {
-    for (let file of files) {
-      const base64 = await this.toBase64(file);
-      this.images.push(base64);
+    try {
+      for (let file of files) {
+        const base64 = await this.toBase64(file);
+        this.images.push(base64);
+      }
+      this.renderPreview();
+      this.eventBus.emit(EVENTS.IMAGE.UPLOADED, this.images);
+    } catch (error) {
+      formatError(ERROR_DOMAIN.UPLOAD, "uploaded error");
     }
-    this.renderPreview();
-    this.eventBus.emit(EVENTS.IMAGE.UPLOADED, this.images);
   }
 
   toBase64(file) {
