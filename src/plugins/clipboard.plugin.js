@@ -47,7 +47,20 @@ export class Clipboarder {
     const content = html || text;
 
     const clean = this.sanitizeHTML(content);
-    this.editor.innerHTML = clean;
+    this.editor.innerHTML += clean;
+    this.setCaretToEnd(this.editor);
+    this.editor.scrollTop = this.editor.scrollHeight;
+  }
+
+  setCaretToEnd(el) {
+    if (!el) return;
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    el.focus();
   }
 
   /**

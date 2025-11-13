@@ -41,6 +41,15 @@ export class Editor {
   }
 
   listen() {
+    this.editorUi.element.addEventListener("keydown", () => {
+      this.undoRedo.push(this.editorUi.getContent());
+    });
+    this.editorUi.element.addEventListener("paste", () => {
+      this.undoRedo.push(this.editorUi.getContent());
+    });
+    this.editorUi.element.addEventListener("cut", () => {
+      this.undoRedo.push(this.editorUi.getContent());
+    });
     this.eventBus.on(EVENTS.FORMAT.DONE, () => {
       this.undoRedo.push(this.editorUi.getContent());
     });
@@ -140,6 +149,4 @@ export class Editor {
       }
     }
   }
-
-  // T6 : render UI cua editor, thuc hien cac thao tac command cung nhu click duoc, sanitize, counter duoc
 }

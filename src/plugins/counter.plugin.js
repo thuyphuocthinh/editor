@@ -1,9 +1,6 @@
 import { IDS } from "../constants";
 
 export class Counter {
-  /**
-   * @param {HTMLElement} container - Element chứa counter
-   */
   constructor(container) {
     this.container = container;
     this.displayElement = container?.querySelector(`#${IDS.counter}`) || null;
@@ -12,18 +9,21 @@ export class Counter {
 
   listen() {
     this.start();
-    this.container.addEventListener("keydown", (e) => {
-      const value = e.target.textContent;
-      this.update.bind(this)(value);
-    });
+
+    const updateContent = (e) => {
+      setTimeout(() => {
+        const value = e.target.textContent;
+        this.update(value);
+      }, 0);
+    };
+
+    this.container.addEventListener("keydown", updateContent);
+    this.container.addEventListener("keyup", updateContent);
+    this.container.addEventListener("paste", updateContent);
+    this.container.addEventListener("cut", updateContent);
   }
 
-  /**
-   * Cập nhật số lượng từ trong content
-   * @param {string} content - Nội dung văn bản cần đếm
-   */
   update(content = "") {
-    console.log(content);
     if (!this.displayElement) return;
     const wordCount = content
       .trim()
@@ -32,10 +32,6 @@ export class Counter {
     this.displayElement.textContent = wordCount;
   }
 
-  /**
-   * Khởi động counter
-   * @param {string} [initialContent=""]
-   */
   start(initialContent = "") {
     this.update(initialContent);
   }
