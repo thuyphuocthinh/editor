@@ -32,7 +32,6 @@ export class Link {
       this.saveSelection();
       this.render(coordinates);
     });
-
     this.eventBus.on(EVENTS.ACTION.SAVE_LINK, this.insertUrl.bind(this));
   }
 

@@ -3,6 +3,7 @@ import { CodeBlock } from "../plugins/codeblock.plugin";
 import { Clipboarder, Counter, UndoRedo } from "../plugins/index";
 import { ImageUploader } from "../plugins/upload.plugin";
 import { CounterUi } from "../ui/counter.ui";
+import { HoverLinkUi } from "../ui/hoverLink.ui";
 import { EditorUi } from "../ui/index";
 import { PreviewCtn } from "../ui/preview.ui";
 import { $, formatError } from "../utils";
@@ -36,6 +37,7 @@ export class Editor {
     this.uploader = null;
     this.codeblock = null;
     this.linkInput = null;
+    this.hoverLink = null;
     this.counterPlugin = null;
     this.init(options);
   }
@@ -89,6 +91,7 @@ export class Editor {
     this.editorUi.mount(this.container);
     this.eventBus.emit(EVENTS.GLOBAL.READY);
     this.linkInput = new Link(this.editorUi.element, this.eventBus);
+    this.hoverLink = new HoverLinkUi({}, this.eventBus, this.editorUi.element);
   }
 
   init(options) {

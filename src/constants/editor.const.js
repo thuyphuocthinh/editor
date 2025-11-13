@@ -7,6 +7,7 @@ export const IDS = {
   previewHtml: "preview-html",
   previewText: "preview-text",
   previewCtn: "preview-ctn",
+  hoverLink: "hover-link",
 };
 
 export const ATTRIBUTES = {

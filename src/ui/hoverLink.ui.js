@@ -1,4 +1,4 @@
-import { EVENTS } from "../constants";
+import { EVENTS, IDS } from "../constants";
 import { BaseComponent } from "./baseComponent";
 
 const defineProps = {
@@ -15,16 +15,48 @@ const defineProps = {
 };
 
 export class HoverLinkUi extends BaseComponent {
-  constructor(props, eventBus) {
+  constructor(props, eventBus, editor) {
     super(props, defineProps);
     this.eventBus = eventBus;
     this.currentUrl = "";
     this.isEditMode = false;
     this.element = this.render();
+    this.editor = editor;
+    this.listen();
+  }
+
+  listen() {
+    this.editor.addEventListener("mousemove", (e) => {
+      const target = e.target;
+
+      if (target.tagName === "A") {
+        this.currentUrl = target.getAttribute("href") || "";
+
+        if (!this.isEditMode) {
+          this.remove();
+          const hoverElement = this.render();
+          document.body.appendChild(hoverElement);
+          const rect = target.getBoundingClientRect();
+          hoverElement.style.position = "absolute";
+          hoverElement.style.top = `${rect.bottom + window.scrollY}px`;
+          hoverElement.style.left = `${rect.left + window.scrollX}px`;
+        }
+      } else {
+        this.remove();
+      }
+    });
+  }
+
+  remove() {
+    let hoverElement = document.querySelector(`#${IDS.hoverLink}`);
+    if (hoverElement) {
+      document.body.removeChild(hoverElement);
+    }
   }
 
   render() {
     const container = document.createElement("div");
+    container.id = IDS.hoverLink;
     container.style.display = "flex";
     container.style.alignItems = "center";
     container.style.gap = "8px";
