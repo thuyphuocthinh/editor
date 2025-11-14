@@ -41,4 +41,12 @@ export class LinkUi extends BaseComponent {
     this.setStyle(container);
     return container;
   }
+
+  unmount() {
+    super.unmount();
+    const input = this.element.querySelector("input");
+    if (input) {
+      input.value = "";
+    }
+  }
 }

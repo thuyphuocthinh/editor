@@ -19,9 +19,9 @@ export class HoverLinkUi extends BaseComponent {
     super(props, defineProps);
     this.eventBus = eventBus;
     this.currentUrl = "";
-    this.isEditMode = false;
     this.element = this.render();
     this.editor = editor;
+    this.currentAnchor = null;
     this.listen();
   }
 
@@ -31,16 +31,18 @@ export class HoverLinkUi extends BaseComponent {
 
       if (target.tagName === "A") {
         this.currentUrl = target.getAttribute("href") || "";
-
-        if (!this.isEditMode) {
-          this.remove();
-          const hoverElement = this.render();
-          document.body.appendChild(hoverElement);
-          const rect = target.getBoundingClientRect();
-          hoverElement.style.position = "absolute";
-          hoverElement.style.top = `${rect.bottom + window.scrollY}px`;
-          hoverElement.style.left = `${rect.left + window.scrollX}px`;
+        this.currentAnchor = target;
+        this.remove();
+        const hoverElement = this.render();
+        document.body.appendChild(hoverElement);
+        const input = hoverElement.querySelector("input");
+        if (input) {
+          input.value = this.currentUrl;
         }
+        const rect = target.getBoundingClientRect();
+        hoverElement.style.position = "absolute";
+        hoverElement.style.top = `${rect.bottom + window.scrollY}px`;
+        hoverElement.style.left = `${rect.left + window.scrollX}px`;
       } else {
         this.remove();
       }
@@ -61,7 +63,6 @@ export class HoverLinkUi extends BaseComponent {
     container.style.alignItems = "center";
     container.style.gap = "8px";
 
-    // Input
     const input = document.createElement("input");
     input.type = "text";
     input.placeholder = "Type or edit link";
@@ -69,51 +70,34 @@ export class HoverLinkUi extends BaseComponent {
     input.style.padding = "0 6px";
     input.style.flex = "1";
 
-    // Buttons
     const btnSave = this.createButton("💾 Save");
     const btnView = this.createButton("🔗 View");
-    const btnEdit = this.createButton("✏️ Edit");
     const btnRemove = this.createButton("🗑 Remove");
 
-    // Save new or edited link
     btnSave.addEventListener("click", () => {
       const url = input.value.trim();
       if (!url) return;
       this.currentUrl = url;
-      this.isEditMode = false;
       this.eventBus.emit(EVENTS.ACTION.SAVE_LINK, url);
-      this.updateViewMode(container, input, { url });
+      this.saveNewLink(container, input, { url });
     });
 
-    // View existing link
     btnView.addEventListener("click", () => {
       if (this.currentUrl) window.open(this.currentUrl, "_blank");
     });
 
-    // Edit existing link
-    btnEdit.addEventListener("click", () => {
-      this.isEditMode = true;
-      input.value = this.currentUrl;
-      this.updateEditMode(container, input);
-    });
-
-    // Remove link
     btnRemove.addEventListener("click", () => {
-      this.eventBus.emit(EVENTS.ACTION.REMOVE_LINK, this.currentUrl);
       this.currentUrl = "";
       input.value = "";
-      this.updateEditMode(container, input);
+      this.removeAnchor();
     });
 
-    // Default: show edit mode
     container.appendChild(input);
     container.appendChild(btnSave);
     container.appendChild(btnView);
-    container.appendChild(btnEdit);
     container.appendChild(btnRemove);
 
     this.setStyle(container);
-    this.updateEditMode(container, input);
 
     return container;
   }
@@ -126,12 +110,21 @@ export class HoverLinkUi extends BaseComponent {
     return btn;
   }
 
-  updateViewMode(container, input, { url }) {
+  saveNewLink(container, input, { url }) {
     input.disabled = true;
     input.value = url;
+    if (this.currentAnchor) {
+      this.currentAnchor.href = url;
+    }
   }
 
-  updateEditMode(container, input) {
-    input.disabled = false;
+  removeAnchor() {
+    if (!this.currentAnchor) return;
+    const text = document.createTextNode(this.currentAnchor.textContent || "");
+    this.currentAnchor.replaceWith(text);
+    this.currentAnchor = null;
+    this.currentUrl = "";
+    this.eventBus.emit(EVENTS.ACTION.REMOVE_LINK);
+    this.remove();
   }
 }
