@@ -17,7 +17,7 @@ export class Toolbar {
   listen() {
     this.eventBus.on(EVENTS.FORMAT.CLICK, this.formatInline.bind(this));
     this.eventBus.on(EVENTS.ACTION.CLICK, this.formatBlock.bind(this));
-    this.eventBus.on(EVENTS.ACTION.PREVIEW, this.preview);
+    this.eventBus.on(EVENTS.ACTION.PREVIEW, this.preview.bind(this));
     this.eventBus.on(EVENTS.ACTION.RESET, this.reset);
     this.eventBus.on(EVENTS.ACTION.CLEAR, this.clear);
     this.eventBus.on(EVENTS.COMMANDS.TRIGGER, this.formatInline.bind(this));
@@ -128,6 +128,7 @@ export class Toolbar {
     if (previewText && previewHtml && editor) {
       previewHtml.textContent = editor.innerHTML;
       previewText.innerHTML = editor.innerHTML;
+      this.eventBus.emit(EVENTS.ACTION.GET_HTML, editor.innerHTML);
     }
   }
 

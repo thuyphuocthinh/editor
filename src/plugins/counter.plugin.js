@@ -12,7 +12,7 @@ export class Counter {
 
     const updateContent = (e) => {
       setTimeout(() => {
-        const value = e.target.textContent;
+        const value = e.target.innerText;
         this.update(value);
       }, 0);
     };
@@ -25,10 +25,7 @@ export class Counter {
 
   update(content = "") {
     if (!this.displayElement) return;
-    const wordCount = content
-      .trim()
-      .split(/\s+/) // tách theo khoảng trắng
-      .filter(Boolean).length;
+    const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
     this.displayElement.textContent = wordCount;
   }
 

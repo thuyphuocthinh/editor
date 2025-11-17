@@ -11,6 +11,7 @@ import { CommandManager } from "./command.core";
 import { DOMHelper } from "./dom.core";
 import { EventBus } from "./events.core";
 import { Link } from "./link.core";
+import { Parser } from "./parser.core";
 import { Toolbar } from "./toolbar.core";
 
 export class Editor {
@@ -29,6 +30,7 @@ export class Editor {
     this.eventBus = new EventBus();
     this.commands = new CommandManager(this.eventBus);
     this.undoRedo = new UndoRedo();
+    this.parser = new Parser(this.eventBus);
     this.selection = null;
     this.editorUi = null;
     this.counterUi = null;
