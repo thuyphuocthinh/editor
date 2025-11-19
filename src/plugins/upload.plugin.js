@@ -1,5 +1,5 @@
 import { ERROR_DOMAIN, EVENTS } from "../constants/index.js";
-import Viewer from "viewerjs";
+import Viewer from "../../node_modules/viewerjs/dist/viewer.esm.js";
 import { formatError } from "../utils/index.js";
 export class ImageUploader {
   constructor(container, eventBus) {
