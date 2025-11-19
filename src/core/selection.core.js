@@ -1,4 +1,4 @@
-import { EVENTS } from "../constants/index";
+import { EVENTS } from "../constants/index.js";
 
 export class Selection {
   constructor(eventBus, element) {

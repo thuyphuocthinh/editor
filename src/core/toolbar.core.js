@@ -1,6 +1,6 @@
-import { COMMANDS, EVENTS, IDS } from "../constants";
-import { ToolbarV2 } from "../ui";
-import { $ } from "../utils";
+import { EVENTS, IDS } from "../constants/index.js";
+import { ToolbarV2 } from "../ui/index.js";
+import { $ } from "../utils/index.js";
 
 export class Toolbar {
   constructor(eventBus) {

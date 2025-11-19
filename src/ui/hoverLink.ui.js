@@ -1,5 +1,5 @@
-import { EVENTS, IDS } from "../constants";
-import { BaseComponent } from "./baseComponent";
+import { EVENTS, IDS } from "../constants/index.js";
+import { BaseComponent } from "./baseComponent.js";
 
 const defineProps = {
   style: {

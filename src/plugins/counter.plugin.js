@@ -1,4 +1,4 @@
-import { IDS } from "../constants";
+import { IDS } from "../constants/index.js";
 
 export class Counter {
   constructor(container) {

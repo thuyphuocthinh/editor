@@ -1,4 +1,4 @@
-import { EVENTS } from "../constants";
+import { EVENTS } from "../constants/index.js";
 
 export class Parser {
   constructor(eventBus) {

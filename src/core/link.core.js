@@ -1,5 +1,5 @@
-import { EVENTS } from "../constants";
-import { LinkUi } from "../ui/link.ui";
+import { EVENTS } from "../constants/index.js";
+import { LinkUi } from "../ui/link.ui.js";
 
 export class Link {
   constructor(editor, eventBus) {

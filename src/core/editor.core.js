@@ -1,18 +1,18 @@
-import { ERROR_DOMAIN, ERROR_SUFFIX, EVENTS, IDS } from "../constants";
-import { CodeBlock } from "../plugins/codeblock.plugin";
-import { Clipboarder, Counter, UndoRedo } from "../plugins/index";
-import { ImageUploader } from "../plugins/upload.plugin";
-import { CounterUi } from "../ui/counter.ui";
-import { HoverLinkUi } from "../ui/hoverLink.ui";
-import { EditorUi } from "../ui/index";
-import { PreviewCtn } from "../ui/preview.ui";
-import { $, formatError } from "../utils";
-import { CommandManager } from "./command.core";
-import { DOMHelper } from "./dom.core";
-import { EventBus } from "./events.core";
-import { Link } from "./link.core";
-import { Parser } from "./parser.core";
-import { Toolbar } from "./toolbar.core";
+import { ERROR_DOMAIN, ERROR_SUFFIX, EVENTS, IDS } from "../constants/index.js";
+import { CodeBlock } from "../plugins/codeblock.plugin.js";
+import { Clipboarder, Counter, UndoRedo } from "../plugins/index.js";
+import { ImageUploader } from "../plugins/upload.plugin.js";
+import { CounterUi } from "../ui/counter.ui.js";
+import { HoverLinkUi } from "../ui/hoverLink.ui.js";
+import { EditorUi } from "../ui/index.js";
+import { PreviewCtn } from "../ui/preview.ui.js";
+import { $, formatError } from "../utils/index.js";
+import { CommandManager } from "./command.core.js";
+import { DOMHelper } from "./dom.core.js";
+import { EventBus } from "./events.core.js";
+import { Link } from "./link.core.js";
+import { Parser } from "./parser.core.js";
+import { Toolbar } from "./toolbar.core.js";
 
 export class Editor {
   constructor(selector, options = {}) {

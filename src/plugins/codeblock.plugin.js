@@ -1,4 +1,4 @@
-import { EVENTS } from "../constants/events.const";
+import { EVENTS } from "../constants/index.js";
 
 export class CodeBlock {
   constructor(container, eventBus) {

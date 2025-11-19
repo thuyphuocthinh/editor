@@ -1,5 +1,5 @@
-import { ERROR_DOMAIN } from "../constants";
-import { CustomError } from "../core";
+import { ERROR_DOMAIN } from "../constants/index.js";
+import { CustomError } from "../core/index.js";
 
 const validateProps = (props, rules) => {
   if (typeof props !== "object" || props === null) {

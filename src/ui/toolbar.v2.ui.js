@@ -1,6 +1,6 @@
-import { ATTRIBUTES, EVENTS, IDS } from "../constants";
-import { TOOLBARS } from "../constants/toolbar.const";
-import { BaseComponent } from "./baseComponent";
+import { ATTRIBUTES, EVENTS, IDS } from "../constants/index.js";
+import { TOOLBARS } from "../constants/index.js";
+import { BaseComponent } from "./baseComponent.js";
 
 const defineProps = {};
 

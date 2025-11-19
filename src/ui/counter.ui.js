@@ -1,5 +1,5 @@
-import { IDS } from "../constants";
-import { BaseComponent } from "./baseComponent";
+import { IDS } from "../constants/index.js";
+import { BaseComponent } from "./baseComponent.js";
 const defineProps = {
   style: {
     required: false,

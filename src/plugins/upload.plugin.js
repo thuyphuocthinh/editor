@@ -1,6 +1,6 @@
-import { ERROR_DOMAIN, EVENTS } from "../constants";
+import { ERROR_DOMAIN, EVENTS } from "../constants/index.js";
 import Viewer from "viewerjs";
-import { formatError } from "../utils";
+import { formatError } from "../utils/index.js";
 export class ImageUploader {
   constructor(container, eventBus) {
     this.container = container; // phần DOM chính của editor

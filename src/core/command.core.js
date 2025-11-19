@@ -1,6 +1,11 @@
 // core/CommandManager.js
-import { ERROR_DOMAIN, ERROR_SUFFIX, COMMANDS, EVENTS } from "../constants";
-import { formatError } from "../utils";
+import {
+  ERROR_DOMAIN,
+  ERROR_SUFFIX,
+  COMMANDS,
+  EVENTS,
+} from "../constants/index.js";
+import { formatError } from "../utils/index.js";
 
 export class CommandManager {
   constructor(eventBus) {
