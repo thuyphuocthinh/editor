@@ -1,4 +1,4 @@
-import { Editor } from "./src/core";
+import { Editor } from "./src/core/index.js";
 
 const init = () => {
   const editor = new Editor("body", {
