@@ -21,6 +21,7 @@ export class Toolbar {
     this.eventBus.on(EVENTS.ACTION.RESET, this.reset);
     this.eventBus.on(EVENTS.ACTION.CLEAR, this.clear);
     this.eventBus.on(EVENTS.COMMANDS.TRIGGER, this.formatInline.bind(this));
+    this.eventBus.on(EVENTS.ACTION.PARSER, this.parser.bind(this));
   }
 
   formatInline(elementName) {
@@ -129,6 +130,13 @@ export class Toolbar {
       previewHtml.textContent = editor.innerHTML;
       previewText.innerHTML = editor.innerHTML;
       this.eventBus.emit(EVENTS.ACTION.GET_HTML, editor.innerHTML);
+    }
+  }
+
+  parser() {
+    const editor = $(`#${IDS.editorContentable}`);
+    if (editor) {
+      this.eventBus.emit(EVENTS.ACTION.GET_JSON, editor.innerHTML);
     }
   }
 

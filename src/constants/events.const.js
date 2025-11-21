@@ -22,6 +22,8 @@ export const EVENTS = {
     SAVE_LINK: "ACTION_SAVE_LINK",
     OPEN_LINK: "ACTION_OPEN_LINK",
     REMOVE_LINK: "ACTION_REMOVE_LINK",
+    PARSER: "ACTION_PARSER_JSON",
+    GET_JSON: "ACTION_GET_JSON",
     CODE_BLOCK: {
       ADD: "ACTION_ADD_CODE_BLOCK",
       REMOVE: "ACTION_REMOVE_CODE_BLOCK",
@@ -30,6 +32,8 @@ export const EVENTS = {
   IMAGE: {
     UPLOADED: "image:uploaded",
     REMOVED: "image:removed",
+    SUCCESS: "image:upload_success",
+    ERROR: "image:upload_error",
   },
   COMMANDS: {
     TRIGGER: "COMMAND_TRIGGER",

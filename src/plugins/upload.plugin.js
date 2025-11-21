@@ -113,9 +113,9 @@ export class ImageUploader {
       wrapper.appendChild(removeBtn);
       this.previewCtn.appendChild(wrapper);
     });
-
     this.togglePreviewStyle(this.images.length > 0);
     this.viewer.update();
+    this.eventBus.emit(EVENTS.IMAGE.SUCCESS, this.images);
   }
 
   togglePreviewStyle(active) {

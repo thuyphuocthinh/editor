@@ -46,6 +46,7 @@ export class Toolbar extends BaseComponent {
               case "button":
                 const button = document.createElement("button");
                 button.setAttribute(ATTRIBUTES.DATA_CMD, _v.dataCmd);
+                button.style.cursor = "pointer";
                 button.innerText = _v.label;
                 container.appendChild(button);
                 button.addEventListener("click", (e) => {
@@ -56,6 +57,10 @@ export class Toolbar extends BaseComponent {
                     switch (_v.dataCmd) {
                       case "preview": {
                         this.eventBus.emit(EVENTS.ACTION.PREVIEW);
+                        break;
+                      }
+                      case "parser": {
+                        this.eventBus.emit(EVENTS.ACTION.PARSER);
                         break;
                       }
                       case "undo": {

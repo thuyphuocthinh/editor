@@ -35,6 +35,11 @@ export const TOOLBARS = {
       label: "Preview",
       dataCmd: "preview",
     },
+    PARSER: {
+      type: "button",
+      label: "Parser",
+      dataCmd: "parser",
+    },
     CLEAR: {
       type: "button",
       label: "Clear",

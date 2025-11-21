@@ -45,7 +45,6 @@ export class EventBus {
       this.events.set(eventName, []);
     }
     const listeners = Array.from(this.events.get(eventName)) || [];
-    console.log(listeners);
     for (const cb of listeners) {
       try {
         cb(args);

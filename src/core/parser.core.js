@@ -7,7 +7,7 @@ export class Parser {
   }
 
   listen() {
-    this.eventBus.on(EVENTS.ACTION.GET_HTML, this.htmlToJson.bind(this));
+    this.eventBus.on(EVENTS.ACTION.GET_JSON, this.htmlToJson.bind(this));
   }
 
   wrapIfInlineOnly(nodes) {
@@ -30,6 +30,7 @@ export class Parser {
     const root = domParser.parseFromString(html, "text/html");
     let json = this.dfs(root.body);
     json = this.wrapIfInlineOnly(json);
+    console.log("Parsed JSON:", json);
   }
 
   dfs(root) {
