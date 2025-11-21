@@ -22,6 +22,7 @@ document.execCommand(). - Xuất/nhập dữ liệu: innerHTML.
 -   Làm thêm nút Highlight + Link.
 
 👉 Kết quả: Bạn có custom format text bằng Range.
+=> Custom lại Bold, Italic, Highlight, Link, giữ con trỏ, bôi đen thêm popup.
 
 ## Tuần 3
 
@@ -39,14 +40,18 @@ document.execCommand(). - Xuất/nhập dữ liệu: innerHTML.
 
 👉 Kết quả: Editor xử lý được cả inline + block format.
 
-📍 Tháng 2: Chỉnh chu, thêm tính năng thực tế \## Tuần 5 - Học xử lý sự
-kiện paste. - Viết hàm sanitize: giữ lại b, i, u, a, img, bỏ span style
-rác. - Cho phép copy/paste text từ Word/Google Docs.
+📍 Tháng 2: Chỉnh chu, thêm tính năng thực tế
+
+## Tuần 5 - Học xử lý sự kiện paste.
+- Viết hàm sanitize: giữ lại b, i, u, a, img, bỏ span style rác.
+- Cho phép copy/paste text từ Word/Google Docs.
+- Đếm từ
 
 👉 Kết quả: Editor paste sạch sẽ.
 
 ## Tuần 6
 
+-   Refactor sanitize, preview, undo, redo, nested list
 -   Thêm hỗ trợ Insert Image (dán link hoặc upload file).
 -   Thêm Code Block (pre/code).
 -   Học cách wrap block đặc biệt (blockquote, divider).
@@ -55,54 +60,16 @@ rác. - Cho phép copy/paste text từ Word/Google Docs.
 
 ## Tuần 7
 
--   Làm highlight search (nhập từ khoá → highlight trong editor).
--   Làm nút Clear All → reset toàn bộ.
--   Tối ưu Undo/Redo (chỉ lưu diff thay vì full HTML).
-
-👉 Kết quả: Editor nhẹ hơn, usable hơn.
+-   Làm word counter
+-   Làm nút chèn link
 
 ## Tuần 8
 
--   Thêm theme CSS cho editor (light/dark mode).
--   Responsive: test trên mobile (contentEditable vẫn chạy).
--   Fix caret issue khi copy-paste nhiều dòng.
+- Tối ưu Undo/Redo (chỉ lưu diff thay vì full HTML).
+- Chuyển inner HTML => json model
 
-👉 Kết quả: Editor ổn định hơn, usable trên nhiều môi trường.
-
-📍 Tháng 3: Lên tầm "mini-Quill" \## Tuần 9 - Thiết kế data model riêng
-thay vì dùng HTML trực tiếp. - Ví dụ kiểu Quill Delta:
-
-``` json
-[
-  { "insert": "Hello ", "attributes": { "bold": true } },
-  { "insert": "world\n" }
-]
-```
-
-👉 Kết quả: Editor có thể sync data chuẩn hơn.
-
-## Tuần 10
-
+## Tuần 9
 -   Gắn Undo/Redo vào model (lưu operations).
 -   Thêm API xuất ra JSON, nhập từ JSON → render.
 
-👉 Kết quả: Editor có data format riêng, dễ dùng lại.
-
-## Tuần 11
-
--   Viết plugin nhỏ: word counter, auto-save mỗi 5s.
--   Thêm plugin API để mở rộng (gắn toolbar custom).
-
-👉 Kết quả: Editor có plugin system mini.
-
-## Tuần 12
-
--   Làm Demo final:
-    -   Rich text + heading + list + code block + image.\
-    -   Undo/Redo + Paste clean.\
-    -   Xuất/nhập JSON.\
--   Viết doc nhỏ giải thích kiến trúc.
-
-👉 Kết quả: Bạn có **một editor mini (chưa bằng Quill nhưng usable)**,
-và quan trọng nhất là bạn nắm hết: DOM API, Range, Undo/Redo, Data
-model, Plugin architecture.
+Làm xong tới phần export ra json (từ HTML) là oke => dừng

@@ -1,0 +1,25 @@
+{
+  "name": "editor",
+  "version": "1.0.0",
+  "main": "main.v2.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "live-server",
+    "deploy": "gh-pages -d dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "live-server": "^1.2.2",
+    "vite": "^6.4.1"
+  },
+  "dependencies": {
+    "viewerjs": "^1.11.7"
+  }
+}

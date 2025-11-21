@@ -1,0 +1,41 @@
+export const EVENTS = {
+  SELECTION: {
+    CHANGE: "SELECTION_CHANGE_EVENT",
+  },
+  GLOBAL: {
+    READY: "EDITOR_READY_EVENT",
+    CHANGE: "EDITOR_CONTENT_CHANGE",
+  },
+  FORMAT: {
+    CLICK: "FORMAT_CLICK_EVENT",
+    DONE: "FORMAT_CLICK_DONE",
+  },
+  ACTION: {
+    CLICK: "ACTION_CLICK_EVENT",
+    PREVIEW: "ACTION_PREVIEW_EVENT",
+    GET_HTML: "ACTION_GET_HTML",
+    UNDO: "ACTION_UNDO_EVENT",
+    REDO: "ACTION_REDO_EVENT",
+    CLEAR: "ACTION_CLEAR_EVENT",
+    RESET: "ACTION_RESET_EVENT",
+    UPLOAD_IMAGE: "action:upload_image",
+    SAVE_LINK: "ACTION_SAVE_LINK",
+    OPEN_LINK: "ACTION_OPEN_LINK",
+    REMOVE_LINK: "ACTION_REMOVE_LINK",
+    PARSER: "ACTION_PARSER_JSON",
+    GET_JSON: "ACTION_GET_JSON",
+    CODE_BLOCK: {
+      ADD: "ACTION_ADD_CODE_BLOCK",
+      REMOVE: "ACTION_REMOVE_CODE_BLOCK",
+    },
+  },
+  IMAGE: {
+    UPLOADED: "image:uploaded",
+    REMOVED: "image:removed",
+    SUCCESS: "image:upload_success",
+    ERROR: "image:upload_error",
+  },
+  COMMANDS: {
+    TRIGGER: "COMMAND_TRIGGER",
+  },
+};

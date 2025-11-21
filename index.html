@@ -4,34 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <title>Mini Editor</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" type="image/png" href="./src/assets/favicon.png">
+    <!-- <link href="./node_modules/viewerjs/dist/viewer.css" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" href="./style.css" /> -->
 </head>
 
 <body>
-    <div id="toolbar">
-        <button data-cmd="bold">B</button>
-        <button data-cmd="italic">I</button>
-        <button data-cmd="underline">U</button>
-        <button data-cmd="preview">Preview</button>
-        <button data-cmd="clear">Clear</button>
-    </div>
-
-    <div id="editor" contenteditable="true"></div>
-    <div id="preview-ctn">
-        <h3>Preview</h3>
-        <div id="preview-body">
-            <div id="preview-html-ctn">
-                <h4>HTML</h4>
-                <div id="preview-html"></div>
-            </div>
-            <div id="preview-text-ctn">
-                <h4>Text</h4>
-                <div id="preview-text"></div>
-            </div>
-        </div>
-    </div>
-
-    <script src="./main.js"></script>
+    <script src="./main.v2.js" type="module"></script>
 </body>
 
 </html>

@@ -1,0 +1,14 @@
+export const EDITOR_ERROR = "EDITOR_ERROR";
+
+export const ERROR_DOMAIN = {
+  SELECTION_MANAGER: "SELECTION_MANAGER",
+  EVENT_BUS: "EVENT_BUS",
+  DOM: "DOM",
+  COMMANDS: "COMMANDS",
+  UI: "UI",
+  UPLOAD: "UPLOAD",
+};
+
+export const ERROR_SUFFIX = {
+  NOT_EXIST: "DOES NOT EXIST",
+};
