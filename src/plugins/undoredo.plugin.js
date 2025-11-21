@@ -27,4 +27,11 @@ export class UndoRedo {
     this.redoStack.length = 0;
     this.undoStack.length = 0;
   }
+
+  reset() {
+    const firstState =
+      this.undoStack.length > 0 ? this.undoStack.find((state) => state) : "";
+    this.clear();
+    return firstState;
+  }
 }

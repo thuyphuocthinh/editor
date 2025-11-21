@@ -63,6 +63,9 @@ export class Editor {
     this.eventBus.on(EVENTS.ACTION.UNDO, () => {
       this.editorUi.setContent(this.undoRedo.undo());
     });
+    this.eventBus.on(EVENTS.ACTION.RESET, () => {
+      this.editorUi.setContent(this.undoRedo.reset());
+    });
   }
 
   mount() {

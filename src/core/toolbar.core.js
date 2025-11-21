@@ -18,7 +18,6 @@ export class Toolbar {
     this.eventBus.on(EVENTS.FORMAT.CLICK, this.formatInline.bind(this));
     this.eventBus.on(EVENTS.ACTION.CLICK, this.formatBlock.bind(this));
     this.eventBus.on(EVENTS.ACTION.PREVIEW, this.preview.bind(this));
-    this.eventBus.on(EVENTS.ACTION.RESET, this.reset);
     this.eventBus.on(EVENTS.ACTION.CLEAR, this.clear);
     this.eventBus.on(EVENTS.COMMANDS.TRIGGER, this.formatInline.bind(this));
     this.eventBus.on(EVENTS.ACTION.PARSER, this.parser.bind(this));
@@ -150,6 +149,4 @@ export class Toolbar {
       editor.innerHTML = "";
     }
   }
-
-  reset() {}
 }
